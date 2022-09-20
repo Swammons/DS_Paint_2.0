@@ -1,50 +1,50 @@
+package com.example.dspaint;
+
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.geometry.Orientation;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 public class paintTab {
-    public BorderPane paintTabInstance(FileInputStream fileImputStream){
-        BorderPane borderPane = new BorderPane();
-        ScrollPane scrollPane = new ScrollPane();
-        StackPane stackPane = new StackPane();
+    Tab tab;
+    BorderPane borderPane;
+    ScrollPane scrollPane;
+    StackPane stackPane;
 
+    paintCanvas canvas;
+
+    String filePath;
+    paintTab(String name){
+        tab = new Tab(name);
+        borderPane = new BorderPane();
+        scrollPane = new ScrollPane();
+        stackPane = new StackPane();
+        canvas = new paintCanvas();
     }
-    public Toolbar tabToolBar(){
-        ColorPicker lineColorPicker = new ColorPicker();
-        lineColorPicker.setValue(Color.BLACK);
-        Slider lineSizeSlider = new Slider(0, 20, 0);
-        lineSizeSlider.setShowTickLabels(true);
-        lineSizeSlider.setShowTickMarks(true);
-        lineSizeSlider.setMajorTickUnit(5);
-        lineSizeSlider.setBlockIncrement(5);
-        final double[] line_size = {0};
-        Label lineThicknessNum = new Label();
-        lineSizeSlider.valueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                line_size[0] = lineSizeSlider.getValue();
-                lineThicknessNum.setText(Integer.toString((int)line_size[0]));
-            }
-        });
-        ToggleButton drawButton = new ToggleButton("Draw");
-
-        Button clearCanvas = new Button("Clear");
-
-        ColorPicker fillColorPicker = new ColorPicker();
-        fillColorPicker.setValue(Color.BLACK);
-        Button fillButton = new Button("Fill");
-        Separator separator1 = new Separator(Orientation.VERTICAL);
-        Separator separator2 = new Separator(Orientation.VERTICAL);
-        Label drawLabel = new Label("Draw Tools");
-        Label fillLabel = new Label("Fill Tools");
-        ToolBar toolBar = new ToolBar();
-        toolBar.getItems().addAll(clearCanvas,
-                separator1,
-                drawLabel,
-                drawButton,
-                lineColorPicker,
-                lineSizeSlider,
-                lineThicknessNum,
-                separator2,
-                fillLabel,
-                fillButton,
-                fillColorPicker);
-        return toolBar;
+    public Tab paintTabInstance(File file){
+        FileInputStream fileInputStream;
+        try {
+            fileInputStream = new FileInputStream(file);
+        } catch (FileNotFoundException ex) {
+            throw new RuntimeException(ex);
+        }
+        Image image = new Image(fileInputStream);
+        borderPane.setTop(canvas.tabToolBar());
+        borderPane.setCenter(scrollPane);
+        scrollPane.setContent(stackPane);
+        stackPane.getChildren().add(canvas.makeNewCanvas(image));
+        tab.setContent(borderPane);
+        return tab;
     }
+
 }
