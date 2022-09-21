@@ -2,6 +2,7 @@ package com.example.dspaint;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
 import javafx.scene.canvas.Canvas;
@@ -76,6 +77,18 @@ public class paintCanvas {
 
                        }
                   });
+         clearCanvas.setOnAction(new EventHandler<ActionEvent>() {
+
+             public void handle(ActionEvent e) {
+                 graphicsContext.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+             }
+         });
+         fillButton.setOnAction(new EventHandler<ActionEvent>() {
+
+             public void handle(ActionEvent e) {
+                 fillDrawing(graphicsContext, fillColorPicker.getValue());
+             }
+         });
      }
 
      public Canvas makeNewCanvas(Image image){
@@ -124,6 +137,12 @@ public class paintCanvas {
          canvas.snapshot(null, writableImage);
          return writableImage;
      }
+
+    private void fillDrawing(GraphicsContext gc, Color color){
+        gc.setFill(color);
+        gc.fill();
+
+    }
 
 
 
