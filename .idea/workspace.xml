@@ -5,13 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1840403e-526a-468c-b49f-3948521b3b28" name="Changes" comment="Tabs are working&#10;using mass saves">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/dspaint/SwingJank.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dspaint/paintBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/dspaint/paintBase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dspaint/paintCanvas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/dspaint/paintCanvas.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dspaint/paintTab.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/dspaint/paintTab.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/dspaint/hello-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/dspaint/hello-view.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,6 +53,14 @@
       <option name="presentableId" value="Default" />
       <updated>1663615839347</updated>
     </task>
+    <task id="LOCAL-00001" summary="Tabs are working&#10;using mass saves">
+      <created>1663776857742</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1663776857742</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
