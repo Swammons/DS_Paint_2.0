@@ -26,53 +26,77 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class paintBase extends Application {
-    int tabCount = 0;
+    int tabCount = 1;
     @Override
     public void start(Stage stage) throws IOException {
+        stage.setTitle("DS Paint");
         final double[] windowSize = {1000, 500};
+        // Declaring array of paintTabs, for save all and save as all
         final paintTab[] paintTabs = new paintTab[10];
+        // Declaring outermost border pain used to position the menu bar
         BorderPane outsideBorderPane = new BorderPane();
+        // Declaring the tab pane
         TabPane tabPane = new TabPane();
+        // Setting up the menu bar
         Menu File = new Menu("File");
         Menu Help = new Menu("Help");
         MenuItem OpenOp = new MenuItem("Open");
-        MenuItem SaveOp = new MenuItem("Save");
-        MenuItem SaveAsOp = new MenuItem("Save As");
+        MenuItem OpenBlankOp = new MenuItem("Open Blank");
+        MenuItem SaveOp = new MenuItem("Save All");
+        MenuItem SaveAsOp = new MenuItem("Save All As");
         MenuItem CloseOp = new MenuItem("Close");
         MenuItem AboutOp = new MenuItem("About");
         SeparatorMenuItem sep = new SeparatorMenuItem();
         File.getItems().add(OpenOp);
+        File.getItems().add(OpenBlankOp);
         File.getItems().add(SaveOp);
         File.getItems().add(SaveAsOp);
-        File.getItems().add(3, sep);
+        File.getItems().add(4, sep);
         File.getItems().add(CloseOp);
         Help.getItems().add(AboutOp);
         OpenOp.setAccelerator(new KeyCodeCombination(KeyCode.O, KeyCombination.CONTROL_DOWN));
-        SaveOp.setAccelerator(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN));
+        // Declaring what the different menu-bar items do
         OpenOp.setOnAction(new EventHandler<ActionEvent>() {
 
             public void handle(ActionEvent e) {
+                // Open up file explorer so the user can pick a file to open
                 FileChooser fileChooser = new FileChooser();
                 fileChooser.setTitle("Open Resource File");
                 fileChooser.getExtensionFilters().setAll(new FileChooser.ExtensionFilter("Other", "*.*"),
                         new FileChooser.ExtensionFilter("PNG", "*.png"),
+                        new FileChooser.ExtensionFilter("GIF", "*.gif"),
                         new FileChooser.ExtensionFilter("JPG", "*.jpg"));
                 java.io.File file = fileChooser.showOpenDialog(stage);
                 tabCount = tabCount + 1;
-                paintTabs[tabCount] = new paintTab(file.getName());
+                // Make a new paintTab with the users selected image pasted on the canvas
+                paintTabs[tabCount] = new paintTab(file.getName(), stage);
                 tabPane.getTabs().add(paintTabs[tabCount].paintTabInstance(file));
+
+
+            }
+        });
+        OpenBlankOp.setOnAction(new EventHandler<ActionEvent>() {
+
+            public void handle(ActionEvent e) {
+                // Make a new paintTab with a blank canvas
+                tabCount = tabCount + 1;
+                paintTabs[tabCount] = new paintTab("New tab " + Integer.toString(tabCount), stage);
+                tabPane.getTabs().add(paintTabs[tabCount].paintTabBlankInstance());
 
 
             }
         });
         SaveAsOp.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
+                // Save all the tabs to user specified locations
                 for(paintTab pTab : paintTabs) {
                     if(pTab != null) {
+                        // Open up file explorer so the user can pick a file to open
                         FileChooser fileChooser = new FileChooser();
                         fileChooser.setTitle("Save Image");
                         fileChooser.getExtensionFilters().setAll(new FileChooser.ExtensionFilter("PNG", "*.png"),
                                 new FileChooser.ExtensionFilter("JPG", "*.jpg"),
+                                new FileChooser.ExtensionFilter("GIF", "*.gif"),
                                 new FileChooser.ExtensionFilter("Other", "*.*"));
                         File file = fileChooser.showSaveDialog(stage);
                         pTab.Saving(file);
@@ -111,6 +135,8 @@ public class paintBase extends Application {
         // set the scene
         outsideBorderPane.setTop(menuBar);
         outsideBorderPane.setCenter(tabPane);
+        paintTabs[tabCount] = new paintTab("New tab", stage);
+        tabPane.getTabs().add(paintTabs[tabCount].paintTabBlankInstance());
         Scene scene = new Scene(outsideBorderPane, windowSize[0], windowSize[1]);
         stage.setScene(scene);
 
