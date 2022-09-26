@@ -40,6 +40,7 @@ public class paintCanvas {
      double lastShapeW;
      double lastShapeH;
      paintCanvas() {
+         // initialize variables
          canvas = new Canvas();
          graphicsContext = canvas.getGraphicsContext2D();
          // Toolbar items
@@ -62,34 +63,40 @@ public class paintCanvas {
          widthText = new TextField("2000");
          widthText.setMaxWidth(50);
          scaleButton = new Button("Scale Canvas");
+         // for saving the initial coordinates of the click and drag draw options
          final double[] startX = new double[1];
          final double[] startY = new double[1];
 
-
-
-         // Free hand draw controls
+         // When the mouse is clicked in
           canvas.addEventHandler(MouseEvent.MOUSE_PRESSED,
                   new EventHandler<MouseEvent>(){
 
                        public void handle(MouseEvent event) {
+                           // Set the line size and color to what the toolbar has set
                            graphicsContext.setStroke(lineColorPicker.getValue());
                            graphicsContext.setLineWidth(line_size);
+                           // If dash mode is selected then set the dashes
                            if(dashedButton.isSelected()){
+                               // If the line size is 0 make it 1 (This is for when we scale dashes the line size)
                                if(line_size == 0){
                                    line_size = 1;
                                }
+                               // Set the dash offset and the dashes to a proportion of the line size
                                graphicsContext.setLineDashOffset(2.5*line_size);
                                graphicsContext.setLineDashes(5*line_size);
                            }
                            else{
+                               // reset the dash settings to 0 to draw normal
                                graphicsContext.setLineDashOffset(0);
                                graphicsContext.setLineDashes(0);
                            }
+                           // If pen is selected then start making a path at the cursor position
                             if(comboBox.getValue()=="Pen") {
                                  graphicsContext.beginPath();
                                  graphicsContext.moveTo(event.getX(), event.getY());
                                  graphicsContext.stroke();
                             }
+                            // Any tool other than the pen save the cursor position
                             else if (comboBox.getValue()=="Ellipses"||comboBox.getValue()=="Circle"||comboBox.getValue()=="Square"||comboBox.getValue()=="Rectangle"||comboBox.getValue()=="Line") {
                                 startX[0] = event.getX();
                                 startY[0] = event.getY();
@@ -103,10 +110,12 @@ public class paintCanvas {
                   new EventHandler<MouseEvent>(){
 
                        public void handle(MouseEvent event) {
+                           // If pen draw a line along the path to the current cursor position
                             if(comboBox.getValue()=="Pen") {
                                  graphicsContext.lineTo(event.getX(), event.getY());
                                  graphicsContext.stroke();
                             }
+                            // Any tool other than the pen do nothing
                             else if (comboBox.getValue()=="Ellipses"||comboBox.getValue()=="Circle"||comboBox.getValue()=="Square"||comboBox.getValue()=="Rectangle"||comboBox.getValue()=="Line") {
 
                             }
@@ -118,9 +127,11 @@ public class paintCanvas {
                   new EventHandler<MouseEvent>(){
 
                        public void handle(MouseEvent event) {
+                           // If pen do nothing
                             if(comboBox.getValue()=="Pen") {
 
                             }
+                            // For each of the shapes we address 4 different directions that the user could drag
                             else if (comboBox.getValue()=="Ellipses") {
                                 // down and to the right
                                 if (startX[0] < event.getX() && startY[0] < event.getY()) {
@@ -268,13 +279,13 @@ public class paintCanvas {
                        }
                   });
          clearCanvas.setOnAction(new EventHandler<ActionEvent>() {
-
+            // Clear the canvas
              public void handle(ActionEvent e) {
                  graphicsContext.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
              }
          });
          undoButton.setOnAction(new EventHandler<ActionEvent>() {
-
+            // Work in progress
              public void handle(ActionEvent e) {
 
              }
@@ -282,20 +293,23 @@ public class paintCanvas {
          fillButton.setOnAction(new EventHandler<ActionEvent>() {
 
              public void handle(ActionEvent e) {
+                 // Fill the last thing drawn
                  fillDrawing(graphicsContext, fillColorPicker.getValue());
              }
          });
          colorDropper.setOnAction(new EventHandler<ActionEvent>() {
 
              public void handle(ActionEvent e) {
+                 // We Set the tool to none, so we don't accidentally draw when picking a color
                  comboBox.setValue("None");
+                 // run the color grabber function
                  colorGrabber();
              }
          });
 
          scaleButton.setOnAction(new EventHandler<ActionEvent>() {
-
              public void handle(ActionEvent e) {
+                 // take the values in the Height and Width text boxes and scale the canvas to those
                  canvas.setHeight(Double.parseDouble(heightText.getText()));
                  canvas.setWidth(Double.parseDouble(widthText.getText()));
              }
@@ -303,21 +317,27 @@ public class paintCanvas {
      }
 
      public void pasteImage(Image image){
+          // Clear the canvas
           graphicsContext.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+          // set the canvas to the size of the image
           canvas.setWidth(image.getWidth());
           canvas.setHeight(image.getHeight());
+          // Set the Height and Width text boxes to reflect the new scale
           widthText.setText(Double.toString(image.getWidth()));
           heightText.setText(Double.toString(image.getHeight()));
+          // Put the image in upper left of the canvas
           graphicsContext.drawImage(image,0,0);
      }
 
     public Canvas makeNewBlankCanvas(){
+         // Make a blank canvas
         canvas.setWidth(2000);
         canvas.setHeight(1000);
         return canvas;
     }
 
      public ToolBar tabToolBar(){
+         // Construct the toolbar
           lineColorPicker.setValue(Color.BLACK);
           lineSizeSlider.setShowTickLabels(true);
           lineSizeSlider.setShowTickMarks(true);
@@ -380,13 +400,16 @@ public class paintCanvas {
      }
 
      public WritableImage captureCanvas(){
+         // take a screenshot of the canvas and return is as a writable image
          WritableImage writableImage = new WritableImage((int) canvas.getWidth(), (int) canvas.getHeight());
          canvas.snapshot(null, writableImage);
          return writableImage;
      }
 
     private void fillDrawing(GraphicsContext gc, Color color){
+        // Set fill to the color of the fill color picker
         gc.setFill(color);
+        // based on the value in the combo box preform the corresponding fill action
         if(comboBox.getValue()=="Pen"||comboBox.getValue()=="Dashed Pen") {
             gc.fill();
         }
@@ -399,15 +422,19 @@ public class paintCanvas {
     }
 
     private void colorGrabber(){
+         // Save the current canvas as a writable image
          WritableImage currentCanvas = captureCanvas();
-        PixelReader colorReader = currentCanvas.getPixelReader();
+         // Make a pixel reader for the current canvas
+         PixelReader colorReader = currentCanvas.getPixelReader();
          canvas.addEventHandler(MouseEvent.MOUSE_PRESSED,new EventHandler<MouseEvent>(){
 
              public void handle(MouseEvent event) {
+                // If the color dropper is selected get the value of the pixel where the cursor is
                 if(colorDropper.isSelected()) {
                     Color colorGrabbed = colorReader.getColor((int) event.getX(), (int) event.getY());
                     lineColorPicker.setValue(colorGrabbed);
                 }
+                // If the color dropper is not selected... don't do this anymore
                 else {
                     canvas.removeEventHandler(MouseEvent.MOUSE_PRESSED,this);
                 }

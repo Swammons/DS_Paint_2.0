@@ -53,12 +53,13 @@ public class paintTab {
 
     String filePath;
     paintTab(String name, Stage stage){
+        // initialize variables
         menuBar = new MenuBar();
         File = new Menu("File");
         Help = new Menu("Help");
         OpenOp = new MenuItem("Open");
-        SaveOp = new MenuItem("Save All");
-        SaveAsOp = new MenuItem("Save All As");
+        SaveOp = new MenuItem("Save");
+        SaveAsOp = new MenuItem("Save As");
         CloseOp = new MenuItem("Close");
         AboutOp = new MenuItem("About");
         SeparatorMenuItem sep = new SeparatorMenuItem();
@@ -70,6 +71,7 @@ public class paintTab {
         File.getItems().add(3, sep);
         File.getItems().add(CloseOp);
         Help.getItems().add(AboutOp);
+        // Make keyboard shortcuts
         OpenOp.setAccelerator(new KeyCodeCombination(KeyCode.O, KeyCombination.CONTROL_DOWN));
         SaveOp.setAccelerator(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN));
         SaveAsOp.setAccelerator(new KeyCodeCombination(KeyCode.A, KeyCombination.CONTROL_DOWN));
@@ -79,6 +81,7 @@ public class paintTab {
         scrollPane = new ScrollPane();
         stackPane = new StackPane();
         canvas = new paintCanvas();
+        // When the file has just been opened it has not been saved
         isSaved = false;
         OpenOp.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
@@ -89,14 +92,18 @@ public class paintTab {
                         new FileChooser.ExtensionFilter("PNG", "*.png"),
                         new FileChooser.ExtensionFilter("GIF", "*.gif"),
                         new FileChooser.ExtensionFilter("JPG", "*.jpg"));
+                // Get the file the user selected
                 File file = fileChooser.showOpenDialog(stage);
+                // Make the file an input stream
                 FileInputStream fileInputStream;
                 try {
                     fileInputStream = new FileInputStream(file);
                 } catch (FileNotFoundException ex) {
                     throw new RuntimeException(ex);
                 }
+                // make the input stream an image
                 Image image = new Image(fileInputStream);
+                // paste the image on to the canvas
                 canvas.pasteImage(image);
                 filePath = file.getAbsolutePath();
                 tab.setText(file.getName());
@@ -104,17 +111,21 @@ public class paintTab {
         });
         SaveAsOp.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
+                // Note that this tab has been saved befor
                 isSaved = true;
+                // Save it using a Save As File Chooser
                 Saving(SaveAsWindow(stage));
             }
         });
         SaveOp.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
+                // If it has been saved, save it to the last know file path
                 if(isSaved){
                     File file = new File(filePath);
                     Saving(file);
                 }
                 else{
+                    // If is has not been saved yet, do Save As
                     isSaved = true;
                     Saving(SaveAsWindow(stage));
                 }
@@ -123,9 +134,11 @@ public class paintTab {
         CloseOp.setOnAction(new EventHandler<ActionEvent>() {
 
             public void handle(ActionEvent e) {
+                // Create pop up asking the user if they would like to save the tab before closing
                 Alert areYouSureAlert = new Alert(Alert.AlertType.CONFIRMATION, "Would you like to save this tab before closing?", ButtonType.YES, ButtonType.NO);
                 Optional<ButtonType> result = areYouSureAlert.showAndWait();
                 if (areYouSureAlert.getResult() == ButtonType.YES) {
+                    // If they said yes preform a Save
                     if(isSaved){
                         File file = new File(filePath);
                         Saving(file);
@@ -134,14 +147,19 @@ public class paintTab {
                         isSaved = true;
                         Saving(SaveAsWindow(stage));
                     }
+
                 }
                 else {
+                    // if they said no close the dialog box
                     e.consume();
                 }
+                // Close the tab
+                tab.getTabPane().getTabs().remove(tab);
             }
         });
 
         AboutOp.setOnAction(new EventHandler<ActionEvent>() {
+            // Launch the about pop up box
             public void handle(ActionEvent e) {
                 launchAbout(stage);
             }
@@ -150,9 +168,11 @@ public class paintTab {
 
         tab.setOnClosed((Event t) ->
         {
+            // Create pop up asking the user if they would like to save the tab before closing
             Alert areYouSureAlert = new Alert(Alert.AlertType.CONFIRMATION, "Would you like to save this tab before closing?", ButtonType.YES, ButtonType.NO);
             Optional<ButtonType> result = areYouSureAlert.showAndWait();
                 if (areYouSureAlert.getResult() == ButtonType.YES) {
+                    // If they said yes preform a Save
                     if(isSaved){
                         File file = new File(filePath);
                         Saving(file);
@@ -163,6 +183,7 @@ public class paintTab {
                     }
                 }
                 else {
+                    // if they said no close the dialog box
                     t.consume();
                 }
         });
@@ -170,6 +191,7 @@ public class paintTab {
     }
 
     public Tab paintTabBlankInstance(){
+        // Make the Turducken
         saveBorderPane.setTop(menuBar);
         saveBorderPane.setCenter(borderPane);
         borderPane.setTop(canvas.tabToolBar());
@@ -182,7 +204,9 @@ public class paintTab {
 
     public void Saving(File file){
         try {
+            // take a snapshot of the canvas and save it to the file, defaulting to a png if non is given
             ImageIO.write(SwingJank.fromFXImage(getSnapshot(), null), "png", file);
+            // make the path to the new file the file path
             filePath = file.getAbsolutePath();
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
@@ -190,10 +214,12 @@ public class paintTab {
     }
 
     private WritableImage getSnapshot(){
+        // get a snapshot of the  current canvas
         return canvas.captureCanvas();
     }
 
     private File SaveAsWindow(Stage stage){
+        // Pop us with the Save As file chooser
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save Image");
         fileChooser.getExtensionFilters().setAll(new FileChooser.ExtensionFilter("PNG", "*.png"),
@@ -205,6 +231,7 @@ public class paintTab {
     }
 
     private void launchAbout(Stage s){
+        // Launch the About window
         final Stage dialog = new Stage();
         dialog.setTitle("About DS Paint");
         dialog.initModality(Modality.APPLICATION_MODAL);

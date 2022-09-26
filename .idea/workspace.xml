@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1840403e-526a-468c-b49f-3948521b3b28" name="Changes" comment="Working one from desktop">
+    <list default="true" id="1840403e-526a-468c-b49f-3948521b3b28" name="Changes" comment="Final DS Paint 2.0&#10;No commnets">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dspaint/paintBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/dspaint/paintBase.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dspaint/paintCanvas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/dspaint/paintCanvas.java" afterDir="false" />
@@ -85,7 +85,14 @@
       <option name="project" value="LOCAL" />
       <updated>1664146606195</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Final DS Paint 2.0&#10;No commnets">
+      <created>1664165910819</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1664165910819</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -119,6 +126,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Tabs are working&#10;using mass saves" />
     <MESSAGE value="Working one from desktop" />
-    <option name="LAST_COMMIT_MESSAGE" value="Working one from desktop" />
+    <MESSAGE value="Final DS Paint 2.0&#10;No commnets" />
+    <option name="LAST_COMMIT_MESSAGE" value="Final DS Paint 2.0&#10;No commnets" />
   </component>
 </project>
