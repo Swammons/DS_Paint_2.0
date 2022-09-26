@@ -16,6 +16,8 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
+import java.awt.geom.Arc2D;
+
 public class paintCanvas {
      Canvas canvas;
      GraphicsContext graphicsContext;
@@ -28,6 +30,10 @@ public class paintCanvas {
      ColorPicker lineColorPicker;
      ToggleButton colorDropper;
      Slider lineSizeSlider;
+
+     TextField heightText;
+     TextField widthText;
+     Button scaleButton;
      double line_size;
      double lastShapeX;
      double lastShapeY;
@@ -49,8 +55,13 @@ public class paintCanvas {
          lineSizeSlider.setShowTickLabels(true);
          lineSizeSlider.setShowTickMarks(true);
          lineSizeSlider.setMajorTickUnit(5);
-         lineSizeSlider.setBlockIncrement(5);;
+         lineSizeSlider.setBlockIncrement(5);
          line_size = 0;
+         heightText = new TextField("1000");
+         heightText.setMaxWidth(50);
+         widthText = new TextField("2000");
+         widthText.setMaxWidth(50);
+         scaleButton = new Button("Scale Canvas");
          final double[] startX = new double[1];
          final double[] startY = new double[1];
 
@@ -189,19 +200,19 @@ public class paintCanvas {
                                 }
                                 // down and to the left
                                 else if (startX[0] > event.getX() && startY[0] < event.getY()) {
-                                    graphicsContext.strokeRect(event.getX(), startY[0], startX[0] - event.getX(), event.getY()-startX[0]);
+                                    graphicsContext.strokeRect(event.getX(), startY[0], startX[0] - event.getX(), startX[0] - event.getX());
                                     lastShapeX = event.getX();
                                     lastShapeY = startY[0];
                                     lastShapeW = startX[0] - event.getX();
-                                    lastShapeH = event.getX() - startX[0];
+                                    lastShapeH = startX[0] - event.getX();
                                 }
                                 // up and to the right
                                 else if (startX[0] < event.getX() && startY[0] > event.getY()) {
-                                    graphicsContext.strokeRect(startX[0], event.getY(), event.getX() - startX[0], startX[0]-event.getX());
+                                    graphicsContext.strokeRect(startX[0], event.getY(), event.getX() - startX[0], event.getX() - startX[0]);
                                     lastShapeX = startX[0];
                                     lastShapeY = event.getY();
                                     lastShapeW = event.getX() - startX[0];
-                                    lastShapeH = startX[0]-event.getX();
+                                    lastShapeH = event.getX() - startX[0];
                                 }
                                 // up and to the left
                                 else {
@@ -277,16 +288,27 @@ public class paintCanvas {
          colorDropper.setOnAction(new EventHandler<ActionEvent>() {
 
              public void handle(ActionEvent e) {
+                 comboBox.setValue("None");
                  colorGrabber();
+             }
+         });
+
+         scaleButton.setOnAction(new EventHandler<ActionEvent>() {
+
+             public void handle(ActionEvent e) {
+                 canvas.setHeight(Double.parseDouble(heightText.getText()));
+                 canvas.setWidth(Double.parseDouble(widthText.getText()));
              }
          });
      }
 
-     public Canvas makeNewCanvas(Image image){
+     public void pasteImage(Image image){
+          graphicsContext.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
           canvas.setWidth(image.getWidth());
           canvas.setHeight(image.getHeight());
+          widthText.setText(Double.toString(image.getWidth()));
+          heightText.setText(Double.toString(image.getHeight()));
           graphicsContext.drawImage(image,0,0);
-          return canvas;
      }
 
     public Canvas makeNewBlankCanvas(){
@@ -326,8 +348,11 @@ public class paintCanvas {
           Separator separator1 = new Separator(Orientation.VERTICAL);
           Separator separator2 = new Separator(Orientation.VERTICAL);
           Separator separator3 = new Separator(Orientation.VERTICAL);
+          Separator separator4 = new Separator(Orientation.VERTICAL);
           Label drawLabel = new Label("Draw Tools");
           Label fillLabel = new Label("Fill Tools");
+          Label hLabel = new Label("Height: ");
+          Label wLabel = new Label("Width: ");
           ToolBar toolBar = new ToolBar();
           toolBar.getItems().addAll(separator3,
                   clearCanvas,
@@ -343,7 +368,14 @@ public class paintCanvas {
                   separator2,
                   fillLabel,
                   fillButton,
-                  fillColorPicker);
+                  fillColorPicker,
+                  separator4,
+                  hLabel,
+                  heightText,
+                  wLabel,
+                  widthText,
+                  scaleButton
+                  );
           return toolBar;
      }
 
