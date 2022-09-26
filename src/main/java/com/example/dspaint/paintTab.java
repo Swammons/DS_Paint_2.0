@@ -1,6 +1,7 @@
 package com.example.dspaint;
 
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
@@ -30,8 +31,18 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Optional;
 
 public class paintTab {
+    MenuBar menuBar;
+    Menu File;
+    Menu Help;
+    MenuItem OpenOp;
+    MenuItem OpenBlankOp;
+    MenuItem SaveOp;
+    MenuItem SaveAsOp;
+    MenuItem CloseOp;
+    MenuItem AboutOp;
     Tab tab;
     BorderPane borderPane;
     BorderPane saveBorderPane;
@@ -43,9 +54,26 @@ public class paintTab {
 
     String filePath;
     paintTab(String name, Stage stage){
-        Button SaveBt = new Button("Save");
-        Button SaveAsBt = new Button("SaveAs");
-        toolBar = new ToolBar(SaveBt,SaveAsBt);
+        menuBar = new MenuBar();
+        File = new Menu("File");
+        Help = new Menu("Help");
+        OpenOp = new MenuItem("Open");
+        SaveOp = new MenuItem("Save All");
+        AboutOp = new MenuItem("About");
+        SaveAsOp = new MenuItem("Save All As");
+        OpenBlankOp = new MenuItem("Open Blank");
+        CloseOp = new MenuItem("Close");
+        SeparatorMenuItem sep = new SeparatorMenuItem();
+        menuBar.getMenus().add(File);
+        menuBar.getMenus().add(Help);
+        File.getItems().add(OpenOp);
+        File.getItems().add(OpenBlankOp);
+        File.getItems().add(SaveOp);
+        File.getItems().add(SaveAsOp);
+        File.getItems().add(4, sep);
+        File.getItems().add(CloseOp);
+        Help.getItems().add(AboutOp);
+        OpenOp.setAccelerator(new KeyCodeCombination(KeyCode.O, KeyCombination.CONTROL_DOWN));
         tab = new Tab(name);
         borderPane = new BorderPane();
         saveBorderPane = new BorderPane();
@@ -53,13 +81,13 @@ public class paintTab {
         stackPane = new StackPane();
         canvas = new paintCanvas();
         isSaved = false;
-        SaveAsBt.setOnAction(new EventHandler<ActionEvent>() {
+        SaveAsOp.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 isSaved = true;
                 Saving(SaveAsWindow(stage));
             }
         });
-        SaveBt.setOnAction(new EventHandler<ActionEvent>() {
+        SaveOp.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 if(isSaved){
                     File file = new File(filePath);
@@ -72,6 +100,25 @@ public class paintTab {
             }
         });
 
+        tab.setOnClosed((Event t) ->
+        {
+            Alert areYouSureAlert = new Alert(Alert.AlertType.CONFIRMATION, "Would you like to save this tab before closing?", ButtonType.YES, ButtonType.NO);
+            Optional<ButtonType> result = areYouSureAlert.showAndWait();
+                if (areYouSureAlert.getResult() == ButtonType.YES) {
+                    if(isSaved){
+                        File file = new File(filePath);
+                        Saving(file);
+                    }
+                    else{
+                        isSaved = true;
+                        Saving(SaveAsWindow(stage));
+                    }
+                }
+                else {
+                    t.consume();
+                }
+        });
+
     }
 
     public Tab paintTabInstance(File file){
@@ -82,7 +129,7 @@ public class paintTab {
             throw new RuntimeException(ex);
         }
         Image image = new Image(fileInputStream);
-        saveBorderPane.setTop(toolBar);
+        saveBorderPane.setTop(menuBar);
         saveBorderPane.setCenter(borderPane);
         borderPane.setTop(canvas.tabToolBar());
         borderPane.setCenter(scrollPane);
@@ -94,7 +141,7 @@ public class paintTab {
     }
 
     public Tab paintTabBlankInstance(){
-        saveBorderPane.setTop(toolBar);
+        saveBorderPane.setTop(menuBar);
         saveBorderPane.setCenter(borderPane);
         borderPane.setTop(canvas.tabToolBar());
         borderPane.setCenter(scrollPane);
@@ -128,12 +175,6 @@ public class paintTab {
         return file;
     }
 
-    private void savePrompt(Stage stage){
-        final Stage dialog = new Stage();
-        dialog.setTitle("About DS Paint");
-        dialog.initModality(Modality.APPLICATION_MODAL);
-        dialog.initOwner(stage);
-    }
 
 
 }

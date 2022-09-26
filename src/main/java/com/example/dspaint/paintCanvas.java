@@ -11,6 +11,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -25,6 +26,7 @@ public class paintCanvas {
      ToggleButton dashedButton;
      ComboBox comboBox;
      ColorPicker lineColorPicker;
+     ToggleButton colorDropper;
      Slider lineSizeSlider;
      double line_size;
      double lastShapeX;
@@ -42,6 +44,7 @@ public class paintCanvas {
          dashedButton = new ToggleButton("Dashed");
          comboBox = new ComboBox();
          lineColorPicker = new ColorPicker();
+         colorDropper = new ToggleButton("Color Grab");
          lineSizeSlider = new Slider(1, 25, 1);
          lineSizeSlider.setShowTickLabels(true);
          lineSizeSlider.setShowTickMarks(true);
@@ -271,6 +274,12 @@ public class paintCanvas {
                  fillDrawing(graphicsContext, fillColorPicker.getValue());
              }
          });
+         colorDropper.setOnAction(new EventHandler<ActionEvent>() {
+
+             public void handle(ActionEvent e) {
+                 colorGrabber();
+             }
+         });
      }
 
      public Canvas makeNewCanvas(Image image){
@@ -328,6 +337,7 @@ public class paintCanvas {
                   comboBox,
                   dashedButton,
                   lineColorPicker,
+                  colorDropper,
                   lineSizeSlider,
                   lineThicknessNum,
                   separator2,
@@ -354,7 +364,23 @@ public class paintCanvas {
         else if (comboBox.getValue()=="Rectangle" || comboBox.getValue()=="Square") {
             gc.fillRect(lastShapeX, lastShapeY, lastShapeW, lastShapeH);
         }
+    }
 
+    private void colorGrabber(){
+         WritableImage currentCanvas = captureCanvas();
+        PixelReader colorReader = currentCanvas.getPixelReader();
+         canvas.addEventHandler(MouseEvent.MOUSE_PRESSED,new EventHandler<MouseEvent>(){
+
+             public void handle(MouseEvent event) {
+                if(colorDropper.isSelected()) {
+                    Color colorGrabbed = colorReader.getColor((int) event.getX(), (int) event.getY());
+                    lineColorPicker.setValue(colorGrabbed);
+                }
+                else {
+                    canvas.removeEventHandler(MouseEvent.MOUSE_PRESSED,this);
+                }
+             }
+         });
 
 
     }

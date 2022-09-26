@@ -137,6 +137,7 @@ public class paintBase extends Application {
         outsideBorderPane.setCenter(tabPane);
         paintTabs[tabCount] = new paintTab("New tab", stage);
         tabPane.getTabs().add(paintTabs[tabCount].paintTabBlankInstance());
+        tabPane.getTabs().add(newTabButton(tabPane,stage, paintTabs));
         Scene scene = new Scene(outsideBorderPane, windowSize[0], windowSize[1]);
         stage.setScene(scene);
 
@@ -174,5 +175,19 @@ public class paintBase extends Application {
         Scene dialogScene = new Scene(dialogVbox, 500, 200);
         dialog.setScene(dialogScene);
         dialog.show();
+    }
+
+    private Tab newTabButton(TabPane tabPane, Stage stage, paintTab[] paintTabs) {
+        Tab addTab = new Tab("+"); // You can replace the text with an icon
+        addTab.setClosable(false);
+        tabPane.getSelectionModel().selectedItemProperty().addListener((observable, oldTab, newTab) -> {
+            if(newTab == addTab) {
+                tabCount = tabCount + 1;
+                paintTabs[tabCount] = new paintTab("New tab " + Integer.toString(tabCount), stage);
+                tabPane.getTabs().add(tabPane.getTabs().size() - 1, paintTabs[tabCount].paintTabBlankInstance()); // Adding new tab before the "button" tab
+                tabPane.getSelectionModel().select(tabPane.getTabs().size() - 2); // Selecting the tab before the button, which is the newly created one
+            }
+        });
+        return addTab;
     }
 }
