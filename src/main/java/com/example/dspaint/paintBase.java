@@ -30,7 +30,8 @@ public class paintBase extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         stage.setTitle("DS Paint");
-        final double[] windowSize = {1000, 500};
+        //Declare the initial size of the window on start up
+        final double[] windowSize = {1500, 750};
         // Declaring array of paintTabs, for save all and save as all
         final paintTab[] paintTabs = new paintTab[15];
         // Declaring outermost border pain used to position the menu bar
@@ -45,6 +46,11 @@ public class paintBase extends Application {
         tabPane.getTabs().add(newTabButton(tabPane,stage, paintTabs));
         // set the scene
         Scene scene = new Scene(outsideBorderPane, windowSize[0], windowSize[1]);
+        scene.getRoot().setStyle("-fx-accent: #1e74c6;" +
+                "    -fx-focus-color: -fx-accent;" +
+                "    -fx-base: #373e43;" +
+                "    -fx-control-inner-background: derive(-fx-base, 35%);" +
+                "    -fx-control-inner-background-alt: -fx-control-inner-background;");
         stage.setScene(scene);
         stage.show();
     }
