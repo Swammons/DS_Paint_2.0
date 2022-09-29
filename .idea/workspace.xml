@@ -4,11 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1840403e-526a-468c-b49f-3948521b3b28" name="Changes" comment="Final DS Paint 2.0&#10;No commnets">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_9_19_2022_9_40_PM_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_9_19_2022_9_40_PM__Changes_.xml" beforeDir="false" />
+    <list default="true" id="1840403e-526a-468c-b49f-3948521b3b28" name="Changes" comment="Dark mode undo redo and moving shapes also triangles">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dspaint/paintBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/dspaint/paintBase.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dspaint/paintCanvas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/dspaint/paintCanvas.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -93,7 +90,14 @@
       <option name="project" value="LOCAL" />
       <updated>1664165910819</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Dark mode undo redo and moving shapes also triangles">
+      <created>1664389102196</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1664389102196</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -128,6 +132,7 @@
     <MESSAGE value="Tabs are working&#10;using mass saves" />
     <MESSAGE value="Working one from desktop" />
     <MESSAGE value="Final DS Paint 2.0&#10;No commnets" />
-    <option name="LAST_COMMIT_MESSAGE" value="Final DS Paint 2.0&#10;No commnets" />
+    <MESSAGE value="Dark mode undo redo and moving shapes also triangles" />
+    <option name="LAST_COMMIT_MESSAGE" value="Dark mode undo redo and moving shapes also triangles" />
   </component>
 </project>

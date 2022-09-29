@@ -20,6 +20,8 @@ import java.security.cert.PolicyNode;
 import java.util.Optional;
 import java.util.Stack;
 
+import static java.lang.Math.*;
+
 public class paintCanvas {
     Canvas canvas;
     GraphicsContext graphicsContext;
@@ -119,7 +121,7 @@ public class paintCanvas {
                             graphicsContext.stroke();
                         }
                         // Any tool other than the pen save the cursor position
-                        else if (comboBox.getValue() == "Ellipses" || comboBox.getValue() == "Circle" || comboBox.getValue() == "Square" || comboBox.getValue() == "Rectangle" || comboBox.getValue() == "Line" || comboBox.getValue() == "Triangle") {
+                        else if (comboBox.getValue() == "Ellipses" || comboBox.getValue() == "Circle" || comboBox.getValue() == "Square" || comboBox.getValue() == "Rectangle" || comboBox.getValue() == "Line" || comboBox.getValue() == "Triangle" || comboBox.getValue() == "Polygon") {
                             startX[0] = event.getX();
                             startY[0] = event.getY();
                             startState = getSnapshot();
@@ -141,7 +143,7 @@ public class paintCanvas {
                             graphicsContext.stroke();
                         }
                         // Any tool other than the pen do nothing
-                        else if (comboBox.getValue() == "Ellipses" || comboBox.getValue() == "Circle" || comboBox.getValue() == "Square" || comboBox.getValue() == "Rectangle" || comboBox.getValue() == "Triangle" || comboBox.getValue() == "Line") {
+                        else if (comboBox.getValue() == "Ellipses" || comboBox.getValue() == "Circle" || comboBox.getValue() == "Square" || comboBox.getValue() == "Rectangle" || comboBox.getValue() == "Triangle" || comboBox.getValue() == "Line" || comboBox.getValue() == "Polygon") {
                             graphicsContext.drawImage(startState, 0, 0);
                             if (comboBox.getValue() == "Ellipses") {
                                 // down and to the right
@@ -211,7 +213,7 @@ public class paintCanvas {
                                     lastShapeH = startY[0] - event.getY();
                                 }
                             }
-                            else if (comboBox.getValue() == "Square") {
+                            else if (comboBox.getValue() == "Square" || comboBox.getValue() == "Square") {
                                 // down and to the right
                                 if (startX[0] < event.getX() && startY[0] < event.getY()) {
                                     graphicsContext.strokeRect(startX[0], startY[0], event.getX() - startX[0], event.getX() - startX[0]);
@@ -286,6 +288,40 @@ public class paintCanvas {
                                 lastShapeY = startY[0];
                                 lastShapeW = event.getX();
                                 lastShapeH = event.getY();
+                            }
+                            else if (comboBox.getValue() == "Square") {
+                                // down and to the right
+                                if (startX[0] < event.getX() && startY[0] < event.getY()) {
+                                    graphicsContext.strokeRect(startX[0], startY[0], event.getX() - startX[0], event.getX() - startX[0]);
+                                    lastShapeX = startX[0];
+                                    lastShapeY = startY[0];
+                                    lastShapeW = event.getX() - startX[0];
+                                    lastShapeH = event.getX() - startX[0];
+                                }
+                                // down and to the left
+                                else if (startX[0] > event.getX() && startY[0] < event.getY()) {
+                                    graphicsContext.strokeRect(event.getX(), startY[0], startX[0] - event.getX(), startX[0] - event.getX());
+                                    lastShapeX = event.getX();
+                                    lastShapeY = startY[0];
+                                    lastShapeW = startX[0] - event.getX();
+                                    lastShapeH = startX[0] - event.getX();
+                                }
+                                // up and to the right
+                                else if (startX[0] < event.getX() && startY[0] > event.getY()) {
+                                    graphicsContext.strokeRect(startX[0], event.getY(), event.getX() - startX[0], event.getX() - startX[0]);
+                                    lastShapeX = startX[0];
+                                    lastShapeY = event.getY();
+                                    lastShapeW = event.getX() - startX[0];
+                                    lastShapeH = event.getX() - startX[0];
+                                }
+                                // up and to the left
+                                else {
+                                    graphicsContext.strokeRect(event.getX(), event.getY(), startX[0] - event.getX(), startX[0] - event.getX());
+                                    lastShapeX = event.getX();
+                                    lastShapeY = event.getY();
+                                    lastShapeW = startX[0] - event.getX();
+                                    lastShapeH = startX[0] - event.getX();
+                                }
                             }
                             else if (comboBox.getValue() == "Line") {
                                 // Line just needs the start X&Y and end X&Y
@@ -449,13 +485,22 @@ public class paintCanvas {
                             }
                         }
                         else if (comboBox.getValue() == "Triangle") {
-                            // down and to the right
                             strokeTriangle(startX[0], startY[0], event.getX(),event.getY());
                             lastShapeX = startX[0];
                             lastShapeY = startY[0];
                             lastShapeW = event.getX();
                             lastShapeH = event.getY();
                         }
+                        else if (comboBox.getValue() == "Polygon") {
+
+                            int sides = askForSides();
+                            double radius = sqrt(pow(abs(startX[0]-event.getX()),2)+pow(abs(startY[0]-event.getY()),2));
+                            double[] xPoints = getPolygonSides(startX[0], startY[0], radius,sides,true);
+                            double[] yPoints = getPolygonSides(startX[0], startY[0], radius,sides,false);
+                            graphicsContext.strokePolygon(xPoints, yPoints, sides);
+
+                        }
+
                         else if (comboBox.getValue() == "Line") {
                             // Line just needs the start X&Y and end X&Y
                             graphicsContext.strokeLine(startX[0], startY[0], event.getX(), event.getY());
@@ -570,7 +615,8 @@ public class paintCanvas {
                         "Circle",
                         "Square",
                         "Rectangle",
-                        "Triangle"
+                        "Triangle",
+                        "Polygon"
 
                 );
         comboBox.getItems().addAll(options);
@@ -737,6 +783,35 @@ public class paintCanvas {
             yValues[2] = startY;
         }
         graphicsContext.strokePolygon(xValues, yValues, 3);
+    }
+
+    private static double[] getPolygonSides(double centerX, double centerY, double radius, int sides, boolean x) {
+        double[] returnX = new double[sides];
+        double[] returnY = new double[sides];
+        final double angleStep = Math.PI * 2 / sides;
+        // assumes one point is located directly beneath the center point
+        double angle = 0;
+        for (int i = 0; i < sides; i++, angle += angleStep) {
+            //draws rightside-up; to change, change multiple of angle
+            // x coordinate of the corner
+            returnX[i] = -1 * Math.sin(angle) * radius + centerX;
+            // y coordinate of the corner
+            returnY[i] = -1 * Math.cos(angle) * radius + centerY;
+        }
+        if(x)
+            return returnX;
+        else
+            return returnY;
+    }
+
+    private int askForSides(){
+        final int[] sides = {3};
+        TextInputDialog td = new TextInputDialog("3");
+        td.setHeaderText("Enter Number of sides");
+        // show the text input dialog
+        td.showAndWait();
+        sides[0] = Integer.parseInt(td.getEditor().getText());
+        return sides[0];
     }
 
     private void saveState(){
