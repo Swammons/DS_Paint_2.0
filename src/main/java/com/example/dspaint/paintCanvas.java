@@ -44,8 +44,8 @@ public class paintCanvas {
     double lastShapeY;
     double lastShapeW;
     double lastShapeH;
-    SizedStack<Image> undoStack;
-    SizedStack<Image> redoStack;
+    undoRedoUtils.SizedStack<Image> undoStack;
+    undoRedoUtils.SizedStack<Image> redoStack;
 
     Image startState;
 
@@ -53,8 +53,8 @@ public class paintCanvas {
         // initialize variables
         canvas = new Canvas();
         graphicsContext = canvas.getGraphicsContext2D();
-        undoStack = new SizedStack<>(25);
-        redoStack = new SizedStack<>(25);
+        undoStack = new undoRedoUtils.SizedStack<>(25);
+        redoStack = new undoRedoUtils.SizedStack<>(25);
         // Toolbar items
         fillColorPicker = new ColorPicker();
         clearCanvas = new Button("Clear");
@@ -86,7 +86,7 @@ public class paintCanvas {
                 new EventHandler<MouseEvent>() {
 
                     public void handle(MouseEvent event) {
-                        saveState();
+                        undoRedoUtils.saveState(undoStack, redoStack, canvas);
                         // Set the line size and color to what the toolbar has set
                         graphicsContext.setStroke(lineColorPicker.getValue());
                         graphicsContext.setLineWidth(line_size);
@@ -124,7 +124,7 @@ public class paintCanvas {
                         else if (comboBox.getValue() == "Ellipses" || comboBox.getValue() == "Circle" || comboBox.getValue() == "Square" || comboBox.getValue() == "Rectangle" || comboBox.getValue() == "Line" || comboBox.getValue() == "Triangle" || comboBox.getValue() == "Polygon") {
                             startX[0] = event.getX();
                             startY[0] = event.getY();
-                            startState = getSnapshot();
+                            startState = undoRedoUtils.getSnapshot(canvas);
                         }
                     }
                 });
@@ -283,7 +283,7 @@ public class paintCanvas {
                             }
                             else if (comboBox.getValue() == "Triangle") {
                                 // down and to the right
-                                strokeTriangle(startX[0], startY[0], event.getX(),event.getY());
+                                shapeUtils.strokeTriangle(startX[0], startY[0], event.getX(),event.getY(),graphicsContext);
                                 lastShapeX = startX[0];
                                 lastShapeY = startY[0];
                                 lastShapeW = event.getX();
@@ -485,7 +485,7 @@ public class paintCanvas {
                             }
                         }
                         else if (comboBox.getValue() == "Triangle") {
-                            strokeTriangle(startX[0], startY[0], event.getX(),event.getY());
+                            shapeUtils.strokeTriangle(startX[0], startY[0], event.getX(),event.getY(),graphicsContext);
                             lastShapeX = startX[0];
                             lastShapeY = startY[0];
                             lastShapeW = event.getX();
@@ -493,10 +493,10 @@ public class paintCanvas {
                         }
                         else if (comboBox.getValue() == "Polygon") {
 
-                            int sides = askForSides();
+                            int sides = shapeUtils.askForSides();
                             double radius = sqrt(pow(abs(startX[0]-event.getX()),2)+pow(abs(startY[0]-event.getY()),2));
-                            double[] xPoints = getPolygonSides(startX[0], startY[0], radius,sides,true);
-                            double[] yPoints = getPolygonSides(startX[0], startY[0], radius,sides,false);
+                            double[] xPoints = shapeUtils.getPolygonSides(startX[0], startY[0], radius,sides,true);
+                            double[] yPoints = shapeUtils.getPolygonSides(startX[0], startY[0], radius,sides,false);
                             graphicsContext.strokePolygon(xPoints, yPoints, sides);
 
                         }
@@ -520,7 +520,7 @@ public class paintCanvas {
                 if (areYouSureAlert.getResult() == ButtonType.YES) {
                     // If they said yes clear the canvas
                     graphicsContext.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-                    Image newBlank = getSnapshot();
+                    Image newBlank = undoRedoUtils.getSnapshot(canvas);
                     graphicsContext.drawImage(newBlank, 0, 0);
                 } else {
                     // if they said no close the dialog box
@@ -531,13 +531,13 @@ public class paintCanvas {
         undoButton.setOnAction(new EventHandler<ActionEvent>() {
             // Work in progress
             public void handle(ActionEvent e) {
-                undo();
+                undoRedoUtils.undo(undoStack, redoStack, canvas, graphicsContext, widthText, heightText);
             }
         });
         redoButton.setOnAction(new EventHandler<ActionEvent>() {
             // Work in progress
             public void handle(ActionEvent e) {
-                redo();
+                undoRedoUtils.redo(undoStack, redoStack, canvas, graphicsContext, widthText, heightText);
             }
         });
         fillButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -562,13 +562,13 @@ public class paintCanvas {
                 // take the values in the Height and Width text boxes and scale the canvas to those
                 canvas.setHeight(Double.parseDouble(heightText.getText()));
                 canvas.setWidth(Double.parseDouble(widthText.getText()));
-                saveState();
+                undoRedoUtils.saveState(undoStack, redoStack, canvas);
             }
         });
     }
 
     public void pasteImage(Image image) {
-        saveState();
+        undoRedoUtils.saveState(undoStack, redoStack, canvas);
         // Clear the canvas
         graphicsContext.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         // set the canvas to the size of the image
@@ -585,7 +585,7 @@ public class paintCanvas {
         // Make a blank canvas
         canvas.setWidth(2000);
         canvas.setHeight(1000);
-        Image newBlank = getSnapshot();
+        Image newBlank = undoRedoUtils.getSnapshot(canvas);
         graphicsContext.drawImage(newBlank, 0, 0);
         return canvas;
     }
@@ -665,7 +665,7 @@ public class paintCanvas {
     }
 
     private void fillDrawing(Color color) {
-        saveState();
+        undoRedoUtils.saveState(undoStack, redoStack, canvas);
         // Set fill to the color of the fill color picker
         graphicsContext.setFill(color);
         // based on the value in the combo box preform the corresponding fill action
@@ -743,131 +743,6 @@ public class paintCanvas {
 
 
     }
-    private void strokeTriangle(double startX, double startY, double xMouse, double yMouse) {
-        double[] xValues = {0, 0, 0};
-        double[] yValues = {0, 0, 0};
-        // down and to the right
-        if (startX < xMouse && startY > yMouse) {
-            xValues[0] = startX;
-            xValues[1] = xMouse;
-            xValues[2] = ((xMouse - startX) / 2)+ startX;
-            yValues[0] = startY;
-            yValues[1] = startY;
-            yValues[2] = yMouse;
-        }
-        // down and to the left
-        else if (startX > xMouse && startY > yMouse) {
-            xValues[0] = xMouse;
-            xValues[1] = startX;
-            xValues[2] = ((startX - xMouse) / 2) + xMouse;
-            yValues[0] = startY;
-            yValues[1] = startY;
-            yValues[2] = yMouse;
-        }
-        // up and to the right
-        else if (startX < xMouse && startY < yMouse) {
-            xValues[0] = ((xMouse - startX) / 2) + startX;
-            xValues[1] = startX;
-            xValues[2] = xMouse;
-            yValues[0] = yMouse;
-            yValues[1] = startY;
-            yValues[2] = startY;
-        }
-        // up and to the left
-        else {
-            xValues[0] = ((startX - xMouse) / 2) + xMouse;
-            xValues[1] = xMouse;
-            xValues[2] = startX;
-            yValues[0] = yMouse;
-            yValues[1] = startY;
-            yValues[2] = startY;
-        }
-        graphicsContext.strokePolygon(xValues, yValues, 3);
-    }
-
-    private static double[] getPolygonSides(double centerX, double centerY, double radius, int sides, boolean x) {
-        double[] returnX = new double[sides];
-        double[] returnY = new double[sides];
-        final double angleStep = Math.PI * 2 / sides;
-        // assumes one point is located directly beneath the center point
-        double angle = 0;
-        for (int i = 0; i < sides; i++, angle += angleStep) {
-            //draws rightside-up; to change, change multiple of angle
-            // x coordinate of the corner
-            returnX[i] = -1 * Math.sin(angle) * radius + centerX;
-            // y coordinate of the corner
-            returnY[i] = -1 * Math.cos(angle) * radius + centerY;
-        }
-        if(x)
-            return returnX;
-        else
-            return returnY;
-    }
-
-    private int askForSides(){
-        final int[] sides = {3};
-        TextInputDialog td = new TextInputDialog("3");
-        td.setHeaderText("Enter Number of sides");
-        // show the text input dialog
-        td.showAndWait();
-        sides[0] = Integer.parseInt(td.getEditor().getText());
-        return sides[0];
-    }
-
-    private void saveState(){
-        redoStack.clear();
-        undoStack.push(getSnapshot());
-    }
-    private void undo(){
-        if(!undoStack.isEmpty()) {
-            Image redo = getSnapshot();
-            redoStack.push(redo);
-            Image undoImage = undoStack.pop();
-            canvas.setHeight(undoImage.getHeight());
-            canvas.setWidth(undoImage.getWidth());
-            widthText.setText(Double.toString(undoImage.getWidth()));
-            heightText.setText(Double.toString(undoImage.getHeight()));
-            graphicsContext.drawImage(undoImage, 0, 0);
-        }
-    }
-
-    private void redo() {
-        if (!redoStack.isEmpty()) {
-            Image undo = getSnapshot();
-            undoStack.push(undo);
-            Image redoImage = redoStack.pop();
-            canvas.setHeight(redoImage.getHeight());
-            canvas.setWidth(redoImage.getWidth());
-            widthText.setText(Double.toString(redoImage.getWidth()));
-            heightText.setText(Double.toString(redoImage.getHeight()));
-            graphicsContext.drawImage(redoImage, 0, 0);
-        }
-    }
-
-
-    public Image getSnapshot() {
-        // take a screenshot of the canvas and return is as an image
-        return canvas.snapshot(null,null);
-    }
-
-    public class SizedStack<T> extends Stack<T> {
-        private int maxSize;
-
-        public SizedStack(int size) {
-            super();
-            this.maxSize = size;
-        }
-
-        @Override
-        public T push(T object) {
-            //If the stack is too big, remove elements until it's the right size.
-            while (this.size() >= maxSize) {
-                this.remove(0);
-            }
-            return super.push(object);
-        }
-    }
-
 
 }
 

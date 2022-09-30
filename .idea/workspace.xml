@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1840403e-526a-468c-b49f-3948521b3b28" name="Changes" comment="Dark mode undo redo and moving shapes also triangles">
+    <list default="true" id="1840403e-526a-468c-b49f-3948521b3b28" name="Changes" comment="Polygons of any size working">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/dspaint/shapeUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/dspaint/undoRedoUtils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dspaint/paintCanvas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/dspaint/paintCanvas.java" afterDir="false" />
     </list>
@@ -97,7 +99,14 @@
       <option name="project" value="LOCAL" />
       <updated>1664389102196</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Polygons of any size working">
+      <created>1664494073658</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1664494073658</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -133,6 +142,7 @@
     <MESSAGE value="Working one from desktop" />
     <MESSAGE value="Final DS Paint 2.0&#10;No commnets" />
     <MESSAGE value="Dark mode undo redo and moving shapes also triangles" />
-    <option name="LAST_COMMIT_MESSAGE" value="Dark mode undo redo and moving shapes also triangles" />
+    <MESSAGE value="Polygons of any size working" />
+    <option name="LAST_COMMIT_MESSAGE" value="Polygons of any size working" />
   </component>
 </project>
