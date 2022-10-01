@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1840403e-526a-468c-b49f-3948521b3b28" name="Changes" comment="Polygons of any size working">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/dspaint/shapeUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/dspaint/undoRedoUtils.java" afterDir="false" />
+    <list default="true" id="1840403e-526a-468c-b49f-3948521b3b28" name="Changes" comment="2.1.1 Copy paste added">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dspaint/paintCanvas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/dspaint/paintCanvas.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,7 +105,14 @@
       <option name="project" value="LOCAL" />
       <updated>1664494073658</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Final 2.1.0 !!!!">
+      <created>1664552992964</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1664552992964</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -143,6 +149,8 @@
     <MESSAGE value="Final DS Paint 2.0&#10;No commnets" />
     <MESSAGE value="Dark mode undo redo and moving shapes also triangles" />
     <MESSAGE value="Polygons of any size working" />
-    <option name="LAST_COMMIT_MESSAGE" value="Polygons of any size working" />
+    <MESSAGE value="Final 2.1.0 !!!!" />
+    <MESSAGE value="2.1.1 Copy paste added" />
+    <option name="LAST_COMMIT_MESSAGE" value="2.1.1 Copy paste added" />
   </component>
 </project>

@@ -7,12 +7,15 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
@@ -21,6 +24,7 @@ import java.util.Optional;
 import java.util.Stack;
 
 import static java.lang.Math.*;
+import static java.sql.DriverManager.println;
 
 public class paintCanvas {
     Canvas canvas;
@@ -48,6 +52,7 @@ public class paintCanvas {
     undoRedoUtils.SizedStack<Image> redoStack;
 
     Image startState;
+    Image clipBoard;
 
     paintCanvas() {
         // initialize variables
@@ -111,7 +116,7 @@ public class paintCanvas {
                             graphicsContext.moveTo(event.getX(), event.getY());
                             graphicsContext.stroke();
                         }
-                        if (comboBox.getValue() == "Eraser") {
+                        else if (comboBox.getValue() == "Eraser") {
                             graphicsContext.setStroke(Color.WHITE);
                             graphicsContext.setLineWidth(line_size*3);
                             graphicsContext.setLineDashOffset(0);
@@ -124,6 +129,15 @@ public class paintCanvas {
                         else if (comboBox.getValue() == "Ellipses" || comboBox.getValue() == "Circle" || comboBox.getValue() == "Square" || comboBox.getValue() == "Rectangle" || comboBox.getValue() == "Line" || comboBox.getValue() == "Triangle" || comboBox.getValue() == "Polygon") {
                             startX[0] = event.getX();
                             startY[0] = event.getY();
+                            startState = undoRedoUtils.getSnapshot(canvas);
+                        }
+                        if (event.getButton() == MouseButton.SECONDARY) {
+                            startX[0] = event.getX();
+                            startY[0] = event.getY();
+                            graphicsContext.setLineDashOffset(2.5);
+                            graphicsContext.setLineDashes(7.5);
+                            graphicsContext.setStroke(Color.LIGHTBLUE);
+                            graphicsContext.setLineWidth(4);
                             startState = undoRedoUtils.getSnapshot(canvas);
                         }
                     }
@@ -149,187 +163,134 @@ public class paintCanvas {
                                 // down and to the right
                                 if (startX[0] < event.getX() && startY[0] < event.getY()) {
                                     graphicsContext.strokeOval(startX[0], startY[0], event.getX() - startX[0], event.getY() - startY[0]);
-                                    lastShapeX = startX[0];
-                                    lastShapeY = startY[0];
-                                    lastShapeW = event.getX() - startX[0];
-                                    lastShapeH = event.getY() - startY[0];
                                 }
                                 // down and to the left
                                 else if (startX[0] > event.getX() && startY[0] < event.getY()) {
                                     graphicsContext.strokeOval(event.getX(), startY[0], startX[0] - event.getX(), event.getY() - startY[0]);
-                                    lastShapeX = event.getX();
-                                    lastShapeY = startY[0];
-                                    lastShapeW = startX[0] - event.getX();
-                                    lastShapeH = event.getY() - startY[0];
                                 }
                                 // up and to the right
                                 else if (startX[0] < event.getX() && startY[0] > event.getY()) {
                                     graphicsContext.strokeOval(startX[0], event.getY(), event.getX() - startX[0], startY[0] - event.getY());
-                                    lastShapeX = startX[0];
-                                    lastShapeY = event.getY();
-                                    lastShapeW = event.getX() - startX[0];
-                                    lastShapeH = startY[0] - event.getY();
                                 }
                                 // up and to the left
                                 else {
                                     graphicsContext.strokeOval(event.getX(), event.getY(), startX[0] - event.getX(), startY[0] - event.getY());
-                                    lastShapeX = event.getX();
-                                    lastShapeY = event.getY();
-                                    lastShapeW = startX[0] - event.getX();
-                                    lastShapeH = startY[0] - event.getY();
                                 }
                             }
                             else if (comboBox.getValue() == "Rectangle") {
                                 // down and to the right
                                 if (startX[0] < event.getX() && startY[0] < event.getY()) {
                                     graphicsContext.strokeRect(startX[0], startY[0], event.getX() - startX[0], event.getY() - startY[0]);
-                                    lastShapeX = startX[0];
-                                    lastShapeY = startY[0];
-                                    lastShapeW = event.getX() - startX[0];
-                                    lastShapeH = event.getY() - startY[0];
                                 }
                                 // down and to the left
                                 else if (startX[0] > event.getX() && startY[0] < event.getY()) {
                                     graphicsContext.strokeRect(event.getX(), startY[0], startX[0] - event.getX(), event.getY() - startY[0]);
-                                    lastShapeX = event.getX();
-                                    lastShapeY = startY[0];
-                                    lastShapeW = startX[0] - event.getX();
-                                    lastShapeH = event.getY() - startY[0];
                                 }
                                 // up and to the right
                                 else if (startX[0] < event.getX() && startY[0] > event.getY()) {
                                     graphicsContext.strokeRect(startX[0], event.getY(), event.getX() - startX[0], startY[0] - event.getY());
-                                    lastShapeX = startX[0];
-                                    lastShapeY = event.getY();
-                                    lastShapeW = event.getX() - startX[0];
-                                    lastShapeH = startY[0] - event.getY();
                                 }
                                 // up and to the left
                                 else {
                                     graphicsContext.strokeRect(event.getX(), event.getY(), startX[0] - event.getX(), startY[0] - event.getY());
-                                    lastShapeX = event.getX();
-                                    lastShapeY = event.getY();
-                                    lastShapeW = startX[0] - event.getX();
-                                    lastShapeH = startY[0] - event.getY();
                                 }
                             }
-                            else if (comboBox.getValue() == "Square" || comboBox.getValue() == "Square") {
+                            else if (comboBox.getValue() == "Square") {
                                 // down and to the right
                                 if (startX[0] < event.getX() && startY[0] < event.getY()) {
                                     graphicsContext.strokeRect(startX[0], startY[0], event.getX() - startX[0], event.getX() - startX[0]);
-                                    lastShapeX = startX[0];
-                                    lastShapeY = startY[0];
-                                    lastShapeW = event.getX() - startX[0];
-                                    lastShapeH = event.getX() - startX[0];
                                 }
                                 // down and to the left
                                 else if (startX[0] > event.getX() && startY[0] < event.getY()) {
                                     graphicsContext.strokeRect(event.getX(), startY[0], startX[0] - event.getX(), startX[0] - event.getX());
-                                    lastShapeX = event.getX();
-                                    lastShapeY = startY[0];
-                                    lastShapeW = startX[0] - event.getX();
-                                    lastShapeH = startX[0] - event.getX();
                                 }
                                 // up and to the right
                                 else if (startX[0] < event.getX() && startY[0] > event.getY()) {
                                     graphicsContext.strokeRect(startX[0], event.getY(), event.getX() - startX[0], event.getX() - startX[0]);
-                                    lastShapeX = startX[0];
-                                    lastShapeY = event.getY();
-                                    lastShapeW = event.getX() - startX[0];
-                                    lastShapeH = event.getX() - startX[0];
                                 }
                                 // up and to the left
                                 else {
                                     graphicsContext.strokeRect(event.getX(), event.getY(), startX[0] - event.getX(), startX[0] - event.getX());
-                                    lastShapeX = event.getX();
-                                    lastShapeY = event.getY();
-                                    lastShapeW = startX[0] - event.getX();
-                                    lastShapeH = startX[0] - event.getX();
                                 }
                             }
                             else if (comboBox.getValue() == "Circle") {
                                 // down and to the right
                                 if (startX[0] < event.getX() && startY[0] < event.getY()) {
                                     graphicsContext.strokeOval(startX[0], startY[0], event.getX() - startX[0], event.getX() - startX[0]);
-                                    lastShapeX = startX[0];
-                                    lastShapeY = startY[0];
-                                    lastShapeW = event.getX() - startX[0];
-                                    lastShapeH = event.getX() - startX[0];
                                 }
                                 // down and to the left
                                 else if (startX[0] > event.getX() && startY[0] < event.getY()) {
                                     graphicsContext.strokeOval(event.getX(), startY[0], startX[0] - event.getX(), startX[0] - event.getX());
-                                    lastShapeX = event.getX();
-                                    lastShapeY = startY[0];
-                                    lastShapeW = startX[0] - event.getX();
-                                    lastShapeH = startX[0] - event.getX();
                                 }
                                 // up and to the right
                                 else if (startX[0] < event.getX() && startY[0] > event.getY()) {
                                     graphicsContext.strokeOval(startX[0], event.getY(), event.getX() - startX[0], event.getX() - startX[0]);
-                                    lastShapeX = startX[0];
-                                    lastShapeY = event.getY();
-                                    lastShapeW = event.getX() - startX[0];
-                                    lastShapeH = event.getX() - startX[0];
                                 }
                                 // up and to the left
                                 else {
                                     graphicsContext.strokeOval(event.getX(), event.getY(), startX[0] - event.getX(), startX[0] - event.getX());
-                                    lastShapeX = event.getX();
-                                    lastShapeY = event.getY();
-                                    lastShapeW = startX[0] - event.getX();
-                                    lastShapeH = startX[0] - event.getX();
                                 }
                             }
                             else if (comboBox.getValue() == "Triangle") {
                                 // down and to the right
                                 shapeUtils.strokeTriangle(startX[0], startY[0], event.getX(),event.getY(),graphicsContext);
-                                lastShapeX = startX[0];
-                                lastShapeY = startY[0];
-                                lastShapeW = event.getX();
-                                lastShapeH = event.getY();
                             }
                             else if (comboBox.getValue() == "Square") {
                                 // down and to the right
                                 if (startX[0] < event.getX() && startY[0] < event.getY()) {
                                     graphicsContext.strokeRect(startX[0], startY[0], event.getX() - startX[0], event.getX() - startX[0]);
-                                    lastShapeX = startX[0];
-                                    lastShapeY = startY[0];
-                                    lastShapeW = event.getX() - startX[0];
-                                    lastShapeH = event.getX() - startX[0];
                                 }
                                 // down and to the left
                                 else if (startX[0] > event.getX() && startY[0] < event.getY()) {
                                     graphicsContext.strokeRect(event.getX(), startY[0], startX[0] - event.getX(), startX[0] - event.getX());
-                                    lastShapeX = event.getX();
-                                    lastShapeY = startY[0];
-                                    lastShapeW = startX[0] - event.getX();
-                                    lastShapeH = startX[0] - event.getX();
+
                                 }
                                 // up and to the right
                                 else if (startX[0] < event.getX() && startY[0] > event.getY()) {
                                     graphicsContext.strokeRect(startX[0], event.getY(), event.getX() - startX[0], event.getX() - startX[0]);
-                                    lastShapeX = startX[0];
-                                    lastShapeY = event.getY();
-                                    lastShapeW = event.getX() - startX[0];
-                                    lastShapeH = event.getX() - startX[0];
                                 }
                                 // up and to the left
                                 else {
                                     graphicsContext.strokeRect(event.getX(), event.getY(), startX[0] - event.getX(), startX[0] - event.getX());
-                                    lastShapeX = event.getX();
-                                    lastShapeY = event.getY();
-                                    lastShapeW = startX[0] - event.getX();
-                                    lastShapeH = startX[0] - event.getX();
                                 }
                             }
                             else if (comboBox.getValue() == "Line") {
                                 // Line just needs the start X&Y and end X&Y
                                 graphicsContext.strokeLine(startX[0], startY[0], event.getX(), event.getY());
+                            }
+                        }
+                        if (event.getButton() == MouseButton.SECONDARY) {
+                            graphicsContext.drawImage(startState, 0, 0);
+                            if (startX[0] < event.getX() && startY[0] < event.getY()) {
+                                graphicsContext.strokeRect(startX[0], startY[0], event.getX() - startX[0], event.getY() - startY[0]);
                                 lastShapeX = startX[0];
                                 lastShapeY = startY[0];
-                                lastShapeW = event.getX();
-                                lastShapeH = event.getY();
+                                lastShapeW = event.getX() - startX[0];
+                                lastShapeH = event.getY() - startY[0];
+                            }
+                            // down and to the left
+                            else if (startX[0] > event.getX() && startY[0] < event.getY()) {
+                                graphicsContext.strokeRect(event.getX(), startY[0], startX[0] - event.getX(), event.getY() - startY[0]);
+                                lastShapeX = event.getX();
+                                lastShapeY = startY[0];
+                                lastShapeW = startX[0] - event.getX();
+                                lastShapeH = event.getY() - startY[0];
+                            }
+                            // up and to the right
+                            else if (startX[0] < event.getX() && startY[0] > event.getY()) {
+                                graphicsContext.strokeRect(startX[0], event.getY(), event.getX() - startX[0], startY[0] - event.getY());
+                                lastShapeX = startX[0];
+                                lastShapeY = event.getY();
+                                lastShapeW = event.getX() - startX[0];
+                                lastShapeH = startY[0] - event.getY();
+                            }
+                            // up and to the left
+                            else {
+                                graphicsContext.strokeRect(event.getX(), event.getY(), startX[0] - event.getX(), startY[0] - event.getY());
+                                lastShapeX = event.getX();
+                                lastShapeY = event.getY();
+                                lastShapeW = startX[0] - event.getX();
+                                lastShapeH = startY[0] - event.getY();
                             }
                         }
 
@@ -509,6 +470,17 @@ public class paintCanvas {
                             lastShapeW = event.getX();
                             lastShapeH = event.getY();
                         }
+                        else if (comboBox.getValue() == "Paste"){
+                            graphicsContext.drawImage(clipBoard, event.getX(), event.getY());
+                        }
+                        if (event.getButton() == MouseButton.SECONDARY){
+                            graphicsContext.drawImage(startState, 0, 0);
+                            Rectangle2D bound = new Rectangle2D(lastShapeX, lastShapeY, lastShapeW, lastShapeH);
+                            SnapshotParameters params = new SnapshotParameters();
+                            params.setViewport(bound);
+                            params.setFill(Color.TRANSPARENT);
+                            clipBoard = canvas.snapshot(params, null);
+                        }
                     }
                 });
         clearCanvas.setOnAction(new EventHandler<ActionEvent>() {
@@ -583,8 +555,8 @@ public class paintCanvas {
 
     public Canvas makeNewBlankCanvas() {
         // Make a blank canvas
-        canvas.setWidth(2000);
-        canvas.setHeight(1000);
+        canvas.setWidth(1000);
+        canvas.setHeight(500);
         Image newBlank = undoRedoUtils.getSnapshot(canvas);
         graphicsContext.drawImage(newBlank, 0, 0);
         return canvas;
@@ -616,7 +588,8 @@ public class paintCanvas {
                         "Square",
                         "Rectangle",
                         "Triangle",
-                        "Polygon"
+                        "Polygon",
+                        "Paste"
 
                 );
         comboBox.getItems().addAll(options);
