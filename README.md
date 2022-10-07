@@ -1,11 +1,7 @@
-# Drew's DS Paint Version 2.1.1 -  09/30/2022
+# Drew's DS Paint Version 2.2.1 -  09/30/2022
 ## New features:
- * Undo and Redo!!! Using Sized Stacks
- * Draw triangels pointing up or down 
- * Erase tool
- * Draw a regular side polygon with any number of sides
- * DARK MODE!!!!!!!
- * Copy/paste
+ * Autosave
+ * added test case
  
 ## Known issues:
   * Only supports opening up to 15 tabs a session
