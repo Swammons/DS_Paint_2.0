@@ -1,5 +1,6 @@
 package com.example.dspaint;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -33,6 +34,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Optional;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class paintTab {
     MenuBar menuBar;
@@ -41,6 +44,7 @@ public class paintTab {
     MenuItem OpenOp;
     MenuItem SaveOp;
     MenuItem SaveAsOp;
+    MenuItem AutoSaveToggle;
     MenuItem CloseOp;
     MenuItem AboutOp;
     Tab tab;
@@ -50,6 +54,11 @@ public class paintTab {
     StackPane stackPane;
     paintCanvas canvas;
     boolean isSaved;
+    boolean autoSaveEnable;
+
+    Timer autoSaveTimer;
+
+    TimerTask autoSave;
 
     String filePath;
     paintTab(String name, Stage stage){
@@ -62,13 +71,15 @@ public class paintTab {
         SaveAsOp = new MenuItem("Save As");
         CloseOp = new MenuItem("Close");
         AboutOp = new MenuItem("About");
+        AutoSaveToggle = new MenuItem("Auto Save: (OFF)");
         SeparatorMenuItem sep = new SeparatorMenuItem();
         menuBar.getMenus().add(File);
         menuBar.getMenus().add(Help);
         File.getItems().add(OpenOp);
         File.getItems().add(SaveOp);
         File.getItems().add(SaveAsOp);
-        File.getItems().add(3, sep);
+        File.getItems().add(AutoSaveToggle);
+        File.getItems().add(4, sep);
         File.getItems().add(CloseOp);
         Help.getItems().add(AboutOp);
         // Make keyboard shortcuts
@@ -83,6 +94,21 @@ public class paintTab {
         canvas = new paintCanvas();
         // When the file has just been opened it has not been saved
         isSaved = false;
+        autoSaveEnable = false;
+        autoSaveTimer = new Timer();
+        autoSave = new TimerTask(){
+            //override run method
+            @Override
+            public void run(){
+                if(autoSaveEnable) {
+                    Platform.runLater(() -> {
+                        System.out.println("Saving . . . .");
+                        File file = new File(filePath);
+                        Saving(file);
+                    });
+                }
+            }
+        };
         OpenOp.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 // Open up file explorer so the user can pick a file to open
@@ -107,11 +133,12 @@ public class paintTab {
                 canvas.pasteImage(image);
                 filePath = file.getAbsolutePath();
                 tab.setText(file.getName());
+                isSaved = false;
             }
         });
         SaveAsOp.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
-                // Note that this tab has been saved befor
+                // Note that this tab has been saved before
                 isSaved = true;
                 // Save it using a Save As File Chooser
                 Saving(SaveAsWindow(stage));
@@ -131,6 +158,29 @@ public class paintTab {
                 }
             }
         });
+        AutoSaveToggle.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                if (!autoSaveEnable) {
+                    // If it has been saved, save it to the last know file path
+                    if (isSaved) {
+                        File file = new File(filePath);
+                        Saving(file);
+                    }
+                    else {
+                        // If is has not been saved yet, do Save As
+                        isSaved = true;
+                        Saving(SaveAsWindow(stage));
+                    }
+                    AutoSaveToggle.setText("Auto Save: (ON)");
+                    autoSaveEnable = true;
+                }
+                else{
+                    AutoSaveToggle.setText("Auto Save: (OFF)");
+                    autoSaveEnable = false;
+                }
+            }
+        });
+
         CloseOp.setOnAction(new EventHandler<ActionEvent>() {
 
             public void handle(ActionEvent e) {
@@ -188,6 +238,7 @@ public class paintTab {
                 }
         });
 
+        autoSaveTimer.scheduleAtFixedRate(autoSave, 0, 30000);
     }
 
     public Tab paintTabBlankInstance(){
@@ -230,7 +281,7 @@ public class paintTab {
         return file;
     }
 
-    private void launchAbout(Stage s){
+    private void launchAbout(Stage s) {
         // Launch the About window
         final Stage dialog = new Stage();
         dialog.setTitle("About DS Paint");
@@ -258,8 +309,6 @@ public class paintTab {
         dialog.setScene(dialogScene);
         dialog.show();
     }
-
-
 
 }
 

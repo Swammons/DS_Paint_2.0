@@ -38,6 +38,7 @@ public class paintCanvas {
     ComboBox comboBox;
     ColorPicker lineColorPicker;
     ToggleButton colorDropper;
+    ToggleButton paste;
     Slider lineSizeSlider;
 
     TextField heightText;
@@ -63,6 +64,7 @@ public class paintCanvas {
         // Toolbar items
         fillColorPicker = new ColorPicker();
         clearCanvas = new Button("Clear");
+        paste = new ToggleButton("Paste");
         fillButton = new Button("Fill");
         undoButton = new Button("Undo");
         redoButton = new Button("Redo");
@@ -110,8 +112,11 @@ public class paintCanvas {
                             graphicsContext.setLineDashOffset(0);
                             graphicsContext.setLineDashes(0);
                         }
+                        if (paste.isSelected()){
+                            startState = undoRedoUtils.getSnapshot(canvas);
+                        }
                         // If pen is selected then start making a path at the cursor position
-                        if (comboBox.getValue() == "Pen") {
+                        else if (comboBox.getValue() == "Pen") {
                             graphicsContext.beginPath();
                             graphicsContext.moveTo(event.getX(), event.getY());
                             graphicsContext.stroke();
@@ -147,8 +152,12 @@ public class paintCanvas {
                 new EventHandler<MouseEvent>() {
 
                     public void handle(MouseEvent event) {
+                        if (paste.isSelected()){
+                            graphicsContext.drawImage(startState, 0, 0);
+                            graphicsContext.drawImage(clipBoard, event.getX(), event.getY());
+                        }
                         // If pen draw a line along the path to the current cursor position
-                        if (comboBox.getValue() == "Pen") {
+                        else if (comboBox.getValue() == "Pen") {
                             graphicsContext.lineTo(event.getX(), event.getY());
                             graphicsContext.stroke();
                         }
@@ -293,7 +302,6 @@ public class paintCanvas {
                                 lastShapeH = startY[0] - event.getY();
                             }
                         }
-
                     }
                 });
 
@@ -301,8 +309,12 @@ public class paintCanvas {
                 new EventHandler<MouseEvent>() {
 
                     public void handle(MouseEvent event) {
+                        if (paste.isSelected()){
+                            graphicsContext.drawImage(clipBoard, event.getX(), event.getY());
+                            paste.setSelected(false);
+                        }
                         // If pen do nothing
-                        if (comboBox.getValue() == "Pen") {
+                        else if (comboBox.getValue() == "Pen") {
 
                         }
                         else if(comboBox.getValue() == "Eraser"){
@@ -470,9 +482,6 @@ public class paintCanvas {
                             lastShapeW = event.getX();
                             lastShapeH = event.getY();
                         }
-                        else if (comboBox.getValue() == "Paste"){
-                            graphicsContext.drawImage(clipBoard, event.getX(), event.getY());
-                        }
                         if (event.getButton() == MouseButton.SECONDARY){
                             graphicsContext.drawImage(startState, 0, 0);
                             Rectangle2D bound = new Rectangle2D(lastShapeX, lastShapeY, lastShapeW, lastShapeH);
@@ -588,9 +597,7 @@ public class paintCanvas {
                         "Square",
                         "Rectangle",
                         "Triangle",
-                        "Polygon",
-                        "Paste"
-
+                        "Polygon"
                 );
         comboBox.getItems().addAll(options);
         comboBox.setValue("None");
@@ -599,16 +606,19 @@ public class paintCanvas {
         Separator separator2 = new Separator(Orientation.VERTICAL);
         Separator separator3 = new Separator(Orientation.VERTICAL);
         Separator separator4 = new Separator(Orientation.VERTICAL);
+        Separator separator5 = new Separator(Orientation.VERTICAL);
         Label drawLabel = new Label("Draw Tools");
         Label fillLabel = new Label("Fill Tools");
         Label hLabel = new Label("Height: ");
         Label wLabel = new Label("Width: ");
         ToolBar toolBar = new ToolBar();
-        toolBar.getItems().addAll(separator3,
+        toolBar.getItems().addAll(separator1,
                 clearCanvas,
                 undoButton,
                 redoButton,
-                separator1,
+                separator2,
+                paste,
+                separator3,
                 drawLabel,
                 comboBox,
                 dashedButton,
@@ -616,11 +626,11 @@ public class paintCanvas {
                 colorDropper,
                 lineSizeSlider,
                 lineThicknessNum,
-                separator2,
+                separator4,
                 fillLabel,
                 fillButton,
                 fillColorPicker,
-                separator4,
+                separator5,
                 hLabel,
                 heightText,
                 wLabel,
@@ -665,21 +675,21 @@ public class paintCanvas {
             }
             // down and to the left
             else if (lastShapeX > lastShapeW && lastShapeY > lastShapeH) {
-                xValues[0] = lastShapeW;
+                xValues[0] = lastShapeX;
                 xValues[1] = lastShapeX;
-                xValues[2] = ((lastShapeX - lastShapeW) / 2) + lastShapeW;
+                xValues[2] = lastShapeW;
                 yValues[0] = lastShapeY;
-                yValues[1] = lastShapeY;
-                yValues[2] = lastShapeH;
+                yValues[1] = lastShapeH;
+                yValues[2] = ((lastShapeY - lastShapeH) / 2) + lastShapeH;
             }
             // up and to the right
             else if (lastShapeX < lastShapeW && lastShapeY < lastShapeH) {
-                xValues[0] = ((lastShapeW - lastShapeX) / 2) + lastShapeX;
+                xValues[0] = lastShapeX;
                 xValues[1] = lastShapeX;
                 xValues[2] = lastShapeW;
-                yValues[0] = lastShapeH;
-                yValues[1] = lastShapeY;
-                yValues[2] = lastShapeY;
+                yValues[0] = lastShapeY;
+                yValues[1] = lastShapeH;
+                yValues[2] = ((lastShapeY - lastShapeH) / 2) + lastShapeH;
             }
             // up and to the left
             else {

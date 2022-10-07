@@ -1,28 +1,12 @@
 package com.example.dspaint;
 
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.WritableImage;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
-import javafx.scene.input.KeyCombination;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import javax.imageio.ImageIO;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class paintBase extends Application {
@@ -30,7 +14,7 @@ public class paintBase extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         stage.setTitle("DS Paint");
-        //Declare the initial size of the window on start up
+        // Declare the initial size of the window on start up
         final double[] windowSize = {1500, 750};
         // Declaring array of paintTabs, for save all and save as all
         final paintTab[] paintTabs = new paintTab[15];

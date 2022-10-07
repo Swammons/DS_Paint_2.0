@@ -8,7 +8,7 @@ public class shapeUtils {
     public static void strokeTriangle(double startX, double startY, double xMouse, double yMouse, GraphicsContext graphicsContext) {
         double[] xValues = {0, 0, 0};
         double[] yValues = {0, 0, 0};
-        // Up and to the left
+        // down and to the left
         if (startX < xMouse && startY > yMouse) {
             xValues[0] = startX;
             xValues[1] = xMouse;
@@ -17,23 +17,23 @@ public class shapeUtils {
             yValues[1] = startY;
             yValues[2] = yMouse;
         }
-        // down and to the right
+        // up and to the left
         else if (startX > xMouse && startY > yMouse) {
-            xValues[0] = xMouse;
-            xValues[1] = startX;
-            xValues[2] = ((startX - xMouse) / 2) + xMouse;
-            yValues[0] = startY;
-            yValues[1] = startY;
-            yValues[2] = yMouse;
-        }
-        // up and to the right
-        else if (startX < xMouse && startY < yMouse) {
-            xValues[0] = ((xMouse - startX) / 2) + startX;
+            xValues[0] = startX;
             xValues[1] = startX;
             xValues[2] = xMouse;
-            yValues[0] = yMouse;
-            yValues[1] = startY;
-            yValues[2] = startY;
+            yValues[0] = startY;
+            yValues[1] = yMouse;
+            yValues[2] = ((yMouse - startY) / 2) + startY;
+        }
+        // down and to the right
+        else if (startX < xMouse && startY < yMouse) {
+            xValues[0] = startX;
+            xValues[1] = startX;
+            xValues[2] = xMouse;
+            yValues[0] = startY;
+            yValues[1] = yMouse;
+            yValues[2] = ((yMouse - startY) / 2) + startY;
         }
         // Down and to the left
         else {
