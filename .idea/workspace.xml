@@ -4,22 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1840403e-526a-468c-b49f-3948521b3b28" name="Changes" comment="2.2.1 Auto Save Added">
-      <change afterPath="$PROJECT_DIR$/Icons/arrow-bar-left.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Icons/arrow-bar-right.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Icons/clipboard2-plus.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Icons/crop.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Icons/eraser.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Icons/eyedropper.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Icons/paint-bucket.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/dspaint/cutPasteUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/com/example/dspaint/shapeUtilsTest.java" afterDir="false" />
+    <list default="true" id="1840403e-526a-468c-b49f-3948521b3b28" name="Changes" comment="2.1.1 Copy paste added">
+      <change afterPath="$PROJECT_DIR$/paintLog.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/paintLog.txt.lck" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Icons/arrow-bar-left.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Icons/arrow-bar-left.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Icons/arrow-bar-right.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Icons/arrow-bar-right.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Icons/clipboard2-plus.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Icons/clipboard2-plus.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Icons/crop.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Icons/crop.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Icons/eraser.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Icons/eraser.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Icons/eyedropper.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Icons/eyedropper.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Icons/paint-bucket.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Icons/paint-bucket.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dspaint/paintBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/dspaint/paintBase.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dspaint/paintCanvas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/dspaint/paintCanvas.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dspaint/paintTab.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/dspaint/paintTab.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dspaint/shapeUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/dspaint/shapeUtils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,7 +26,6 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JUnit5 Test Class" />
         <option value="Class" />
       </list>
     </option>
@@ -45,117 +41,48 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="Use Maven wrapper" />
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
   <component name="ProjectId" id="2F04nsxUUbjVAoxIoPsNAKE33c7" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
-    &quot;create.test.in.the.same.root&quot;: &quot;true&quot;,
-    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;18&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Drew Simmons/IdeaProjects/DSPaint/Icons&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Downloaded.Files.Path.Enabled": "false",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "jdk.selected.JAVA_MODULE": "18",
+    "last_opened_file_path": "C:/code/javafx-swing-19.jar",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="com.example.dspaint" />
     </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\Drew Simmons\IdeaProjects\DSPaint\Icons" />
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Drew Simmons\IdeaProjects\DS_Paint_2.0\src\main\resources\Icons" />
+      <recent name="C:\Users\Drew Simmons\IdeaProjects\DS_Paint_2.0\src\main\resources" />
+      <recent name="C:\Users\Drew Simmons\IdeaProjects\DS_Paint_2.0\src\main\java\com\example\dspaint" />
     </key>
-    <key name="CreateTestDialog.Recents.Supers">
-      <recent name="" />
-    </key>
-    <key name="CreateTestDialog.RecentsKey">
-      <recent name="com.example.dspaint" />
-    </key>
-  </component>
-  <component name="RunManager" selected="JUnit.shapeUtilsTest">
-    <configuration name="shapeUtilsTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="DSPaint" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.example.dspaint.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.example.dspaint" />
-      <option name="MAIN_CLASS_NAME" value="com.example.dspaint.shapeUtilsTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="shapeUtilsTest.PythagoreanTheorem" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="DSPaint" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.example.dspaint.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.example.dspaint" />
-      <option name="MAIN_CLASS_NAME" value="com.example.dspaint.shapeUtilsTest" />
-      <option name="METHOD_NAME" value="PythagoreanTheorem" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="shapeUtilsTest.askForSides" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="DSPaint" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.example.dspaint.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.example.dspaint" />
-      <option name="MAIN_CLASS_NAME" value="com.example.dspaint.shapeUtilsTest" />
-      <option name="METHOD_NAME" value="askForSides" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="shapeUtilsTest.getPolygonSides" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="DSPaint" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.example.dspaint.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.example.dspaint" />
-      <option name="MAIN_CLASS_NAME" value="com.example.dspaint.shapeUtilsTest" />
-      <option name="METHOD_NAME" value="getPolygonSides" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="JUnit.shapeUtilsTest" />
-        <item itemvalue="JUnit.shapeUtilsTest.PythagoreanTheorem" />
-        <item itemvalue="JUnit.shapeUtilsTest.askForSides" />
-        <item itemvalue="JUnit.shapeUtilsTest.getPolygonSides" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -215,14 +142,7 @@
       <option name="project" value="LOCAL" />
       <updated>1664552992964</updated>
     </task>
-    <task id="LOCAL-00008" summary="2.2.1 Auto Save Added">
-      <created>1665105834318</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1665105834318</updated>
-    </task>
-    <option name="localTasksCounter" value="9" />
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -254,6 +174,7 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Tabs are working&#10;using mass saves" />
     <MESSAGE value="Working one from desktop" />
     <MESSAGE value="Final DS Paint 2.0&#10;No commnets" />
@@ -261,7 +182,6 @@
     <MESSAGE value="Polygons of any size working" />
     <MESSAGE value="Final 2.1.0 !!!!" />
     <MESSAGE value="2.1.1 Copy paste added" />
-    <MESSAGE value="2.2.1 Auto Save Added" />
-    <option name="LAST_COMMIT_MESSAGE" value="2.2.1 Auto Save Added" />
+    <option name="LAST_COMMIT_MESSAGE" value="2.1.1 Copy paste added" />
   </component>
 </project>

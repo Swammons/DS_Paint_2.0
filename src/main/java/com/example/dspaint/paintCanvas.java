@@ -85,13 +85,13 @@ public class paintCanvas {
         // Clear button set up
         clearCanvas = new Button();
         clearCanvas.setTooltip(new Tooltip("Clear the canvas"));
-        clearImage = new Image("C:/Users/Drew Simmons/IdeaProjects/DSPaint/Icons/eraser.png");
+        clearImage = new Image("C:\\Users\\Drew Simmons\\IdeaProjects\\DS_Paint_2.0\\src\\main\\resources\\Icons\\eraser.png");
         ImageView clearImageView = new ImageView(clearImage);
         clearCanvas.setGraphic(clearImageView);
         // Paste button set up
         pasteButton = new ToggleButton();
         pasteButton.setTooltip(new Tooltip("Pastes last image copied to the next place you click"));
-        pasteImage = new Image("C:/Users/Drew Simmons/IdeaProjects/DSPaint/Icons/clipboard2-plus.png");
+        pasteImage = new Image("C:\\Users\\Drew Simmons\\IdeaProjects\\DS_Paint_2.0\\src\\main\\resources\\Icons\\clipboard2-plus.png");
         ImageView pasteImageView = new ImageView(pasteImage);
         pasteButton.setGraphic(pasteImageView);
         // Cut button set up
@@ -103,19 +103,19 @@ public class paintCanvas {
         // Fill button set up
         fillButton = new Button();
         fillButton.setTooltip(new Tooltip("Fill last shape drawn"));
-        fillImage = new Image("C:/Users/Drew Simmons/IdeaProjects/DSPaint/Icons/paint-bucket.png");
+        fillImage = new Image("C:\\Users\\Drew Simmons\\IdeaProjects\\DS_Paint_2.0\\src\\main\\resources\\Icons\\paint-bucket.png");
         ImageView fillImageView = new ImageView(fillImage);
         fillButton.setGraphic(fillImageView);
         // Undo button set up
         undoButton = new Button();
         undoButton.setTooltip(new Tooltip("Undo last action"));
-        undoImage = new Image("C:/Users/Drew Simmons/IdeaProjects/DSPaint/Icons/arrow-bar-left.png");
+        undoImage = new Image("C:\\Users\\Drew Simmons\\IdeaProjects\\DS_Paint_2.0\\src\\main\\resources\\Icons\\arrow-bar-left.png");
         ImageView undoImageView = new ImageView(undoImage);
         undoButton.setGraphic(undoImageView);
         // Redo button set up
         redoButton = new Button();
         redoButton.setTooltip(new Tooltip("Redo last thing Undo"));
-        redoImage = new Image("C:/Users/Drew Simmons/IdeaProjects/DSPaint/Icons/arrow-bar-right.png");
+        redoImage = new Image("C:\\Users\\Drew Simmons\\IdeaProjects\\DS_Paint_2.0\\src\\main\\resources\\Icons\\arrow-bar-right.png");
         ImageView redoImageView = new ImageView(redoImage);
         redoButton.setGraphic(redoImageView);
         // Dashed button set up
@@ -127,7 +127,7 @@ public class paintCanvas {
         // Color dropper button set up
         colorDropper = new ToggleButton();
         colorDropper.setTooltip(new Tooltip("Set the color picker to a value from the canvas"));
-        colorDropperImage = new Image("C:/Users/Drew Simmons/IdeaProjects/DSPaint/Icons/eyedropper.png");
+        colorDropperImage = new Image("C:\\Users\\Drew Simmons\\IdeaProjects\\DS_Paint_2.0\\src\\main\\resources\\Icons\\eyedropper.png");
         ImageView colorDropperImageView = new ImageView(colorDropperImage);
         colorDropper.setGraphic(colorDropperImageView);
         // Set up line thickness slider
@@ -143,7 +143,7 @@ public class paintCanvas {
         widthText = new TextField("1000");
         widthText.setMaxWidth(50);
         scaleButton = new Button();
-        scaleImage = new Image("C:/Users/Drew Simmons/IdeaProjects/DSPaint/Icons/crop.png");
+        scaleImage = new Image("C:\\Users\\Drew Simmons\\IdeaProjects\\DS_Paint_2.0\\src\\main\\resources\\Icons\\crop.png");
         ImageView scaleImageView = new ImageView(scaleImage);
         scaleButton.setGraphic(scaleImageView);
         scaleButton.setTooltip(new Tooltip("Scale the canvas to these number entered to the left"));

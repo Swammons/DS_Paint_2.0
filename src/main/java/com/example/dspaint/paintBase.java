@@ -8,10 +8,17 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 import static java.lang.System.currentTimeMillis;
 
@@ -39,16 +46,29 @@ public class paintBase extends Application {
         final double[] windowSize = {1500, 750};
         // Declaring array of paintTabs, for save all and save as all
         final paintTab[] paintTabs = new paintTab[15];
+        Logger logger = Logger.getLogger("MyLog");
+        FileHandler fh;
+        try {
+            // This block configure the logger with handler and formatter
+            fh = new FileHandler("C:\\Users\\Drew Simmons\\IdeaProjects\\DS_Paint_2.0\\paintLog.txt");
+            logger.addHandler(fh);
+            SimpleFormatter formatter = new SimpleFormatter();
+            fh.setFormatter(formatter);
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         logEvent = new TimerTask(){
             //override run method
             @Override
             public void run(){
                 Platform.runLater(() -> {
-                    LocalDateTime time = LocalDateTime.now();
-                    System.out.println("[" + time + "]");
                     for(paintTab pT : paintTabs){
                         if(pT != null){
-                            if(pT.isSelected) System.out.println("Current Tap: " + pT.tab.getText() + pT.getLastEventLog());
+                            if(pT.isSelected) {
+                                    logger.info("  Current Tap: " + pT.tab.getText() + pT.getLastEventLog());
+                            }
                         }
                     }
                 });
@@ -101,4 +121,5 @@ public class paintBase extends Application {
         });
         return addTab;
     }
+
 }
