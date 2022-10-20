@@ -13,47 +13,66 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
-import java.security.cert.PolicyNode;
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.Optional;
-import java.util.Stack;
 
-import static java.lang.Math.*;
-import static java.sql.DriverManager.println;
 
+/**
+ * Represents the canvas on a tab.
+ * This also includes the toolbar in the tab.
+ */
 public class paintCanvas {
     Canvas canvas;
     GraphicsContext graphicsContext;
     ColorPicker fillColorPicker;
     Button clearCanvas;
+    Image clearImage;
     Button fillButton;
+    Image fillImage;
     Button undoButton;
+    Image undoImage;
     Button redoButton;
+    Image redoImage;
     ToggleButton dashedButton;
     ComboBox comboBox;
     ColorPicker lineColorPicker;
     ToggleButton colorDropper;
-    ToggleButton paste;
+    Image colorDropperImage;
+    ToggleButton pasteButton;
+    Image pasteImage;
+    ToggleButton cutButton;
+    Button rotateButton;
+    double rotationAngel;
     Slider lineSizeSlider;
-
     TextField heightText;
     TextField widthText;
     Button scaleButton;
+    Image scaleImage;
     double line_size;
     double lastShapeX;
     double lastShapeY;
     double lastShapeW;
     double lastShapeH;
+    double lastCopyX;
+    double lastCopyY;
+    double lastCopyW;
+    double lastCopyH;
     undoRedoUtils.SizedStack<Image> undoStack;
     undoRedoUtils.SizedStack<Image> redoStack;
 
     Image startState;
     Image clipBoard;
+
+    String canvasEventLog;
+    Collection<ChangeListener> listeners;
 
     paintCanvas() {
         // initialize variables
@@ -63,26 +82,75 @@ public class paintCanvas {
         redoStack = new undoRedoUtils.SizedStack<>(25);
         // Toolbar items
         fillColorPicker = new ColorPicker();
-        clearCanvas = new Button("Clear");
-        paste = new ToggleButton("Paste");
-        fillButton = new Button("Fill");
-        undoButton = new Button("Undo");
-        redoButton = new Button("Redo");
-        dashedButton = new ToggleButton("Dashed");
+        // Clear button set up
+        clearCanvas = new Button();
+        clearCanvas.setTooltip(new Tooltip("Clear the canvas"));
+        clearImage = new Image("C:/Users/Drew Simmons/IdeaProjects/DSPaint/Icons/eraser.png");
+        ImageView clearImageView = new ImageView(clearImage);
+        clearCanvas.setGraphic(clearImageView);
+        // Paste button set up
+        pasteButton = new ToggleButton();
+        pasteButton.setTooltip(new Tooltip("Pastes last image copied to the next place you click"));
+        pasteImage = new Image("C:/Users/Drew Simmons/IdeaProjects/DSPaint/Icons/clipboard2-plus.png");
+        ImageView pasteImageView = new ImageView(pasteImage);
+        pasteButton.setGraphic(pasteImageView);
+        // Cut button set up
+        cutButton = new ToggleButton("Cut");
+        cutButton.setTooltip(new Tooltip("Cuts out and pastes last image copied to the next place you click"));
+        // Rotate button set up
+        rotateButton = new Button("Rotate");
+        rotationAngel = 90;
+        // Fill button set up
+        fillButton = new Button();
+        fillButton.setTooltip(new Tooltip("Fill last shape drawn"));
+        fillImage = new Image("C:/Users/Drew Simmons/IdeaProjects/DSPaint/Icons/paint-bucket.png");
+        ImageView fillImageView = new ImageView(fillImage);
+        fillButton.setGraphic(fillImageView);
+        // Undo button set up
+        undoButton = new Button();
+        undoButton.setTooltip(new Tooltip("Undo last action"));
+        undoImage = new Image("C:/Users/Drew Simmons/IdeaProjects/DSPaint/Icons/arrow-bar-left.png");
+        ImageView undoImageView = new ImageView(undoImage);
+        undoButton.setGraphic(undoImageView);
+        // Redo button set up
+        redoButton = new Button();
+        redoButton.setTooltip(new Tooltip("Redo last thing Undo"));
+        redoImage = new Image("C:/Users/Drew Simmons/IdeaProjects/DSPaint/Icons/arrow-bar-right.png");
+        ImageView redoImageView = new ImageView(redoImage);
+        redoButton.setGraphic(redoImageView);
+        // Dashed button set up
+        dashedButton = new ToggleButton("- - -");
+        dashedButton.setTooltip(new Tooltip("Makes all lines and shapes dashed"));
+        // Combo box set up
         comboBox = new ComboBox();
         lineColorPicker = new ColorPicker();
-        colorDropper = new ToggleButton("Color Grab");
+        // Color dropper button set up
+        colorDropper = new ToggleButton();
+        colorDropper.setTooltip(new Tooltip("Set the color picker to a value from the canvas"));
+        colorDropperImage = new Image("C:/Users/Drew Simmons/IdeaProjects/DSPaint/Icons/eyedropper.png");
+        ImageView colorDropperImageView = new ImageView(colorDropperImage);
+        colorDropper.setGraphic(colorDropperImageView);
+        // Set up line thickness slider
         lineSizeSlider = new Slider(1, 25, 1);
         lineSizeSlider.setShowTickLabels(true);
         lineSizeSlider.setShowTickMarks(true);
         lineSizeSlider.setMajorTickUnit(5);
         lineSizeSlider.setBlockIncrement(5);
         line_size = 0;
-        heightText = new TextField("1000");
+        // Set up scale tools
+        heightText = new TextField("500");
         heightText.setMaxWidth(50);
-        widthText = new TextField("2000");
+        widthText = new TextField("1000");
         widthText.setMaxWidth(50);
-        scaleButton = new Button("Scale Canvas");
+        scaleButton = new Button();
+        scaleImage = new Image("C:/Users/Drew Simmons/IdeaProjects/DSPaint/Icons/crop.png");
+        ImageView scaleImageView = new ImageView(scaleImage);
+        scaleButton.setGraphic(scaleImageView);
+        scaleButton.setTooltip(new Tooltip("Scale the canvas to these number entered to the left"));
+        // set up Canvas Log tool
+        canvasEventLog = "Tab Created";
+        listeners = new LinkedList<ChangeListener>();
+
         // for saving the initial coordinates of the click and drag draw options
         final double[] startX = new double[1];
         final double[] startY = new double[1];
@@ -112,7 +180,10 @@ public class paintCanvas {
                             graphicsContext.setLineDashOffset(0);
                             graphicsContext.setLineDashes(0);
                         }
-                        if (paste.isSelected()){
+                        if (pasteButton.isSelected()){
+                            startState = undoRedoUtils.getSnapshot(canvas);
+                        }
+                        else if (cutButton.isSelected()){
                             startState = undoRedoUtils.getSnapshot(canvas);
                         }
                         // If pen is selected then start making a path at the cursor position
@@ -131,7 +202,10 @@ public class paintCanvas {
                             graphicsContext.stroke();
                         }
                         // Any tool other than the pen save the cursor position
-                        else if (comboBox.getValue() == "Ellipses" || comboBox.getValue() == "Circle" || comboBox.getValue() == "Square" || comboBox.getValue() == "Rectangle" || comboBox.getValue() == "Line" || comboBox.getValue() == "Triangle" || comboBox.getValue() == "Polygon") {
+                        else if (comboBox.getValue() == "Ellipses" || comboBox.getValue() == "Circle"
+                                || comboBox.getValue() == "Square" || comboBox.getValue() == "Rectangle"
+                                || comboBox.getValue() == "Line" || comboBox.getValue() == "Triangle"
+                                || comboBox.getValue() == "Polygon") {
                             startX[0] = event.getX();
                             startY[0] = event.getY();
                             startState = undoRedoUtils.getSnapshot(canvas);
@@ -152,7 +226,11 @@ public class paintCanvas {
                 new EventHandler<MouseEvent>() {
 
                     public void handle(MouseEvent event) {
-                        if (paste.isSelected()){
+                        if (pasteButton.isSelected()){
+                            graphicsContext.drawImage(startState, 0, 0);
+                            graphicsContext.drawImage(clipBoard, event.getX(), event.getY());
+                        }
+                        if (cutButton.isSelected()){
                             graphicsContext.drawImage(startState, 0, 0);
                             graphicsContext.drawImage(clipBoard, event.getX(), event.getY());
                         }
@@ -272,34 +350,34 @@ public class paintCanvas {
                             graphicsContext.drawImage(startState, 0, 0);
                             if (startX[0] < event.getX() && startY[0] < event.getY()) {
                                 graphicsContext.strokeRect(startX[0], startY[0], event.getX() - startX[0], event.getY() - startY[0]);
-                                lastShapeX = startX[0];
-                                lastShapeY = startY[0];
-                                lastShapeW = event.getX() - startX[0];
-                                lastShapeH = event.getY() - startY[0];
+                                lastCopyX = startX[0];
+                                lastCopyY = startY[0];
+                                lastCopyW = event.getX() - startX[0];
+                                lastCopyH = event.getY() - startY[0];
                             }
                             // down and to the left
                             else if (startX[0] > event.getX() && startY[0] < event.getY()) {
                                 graphicsContext.strokeRect(event.getX(), startY[0], startX[0] - event.getX(), event.getY() - startY[0]);
-                                lastShapeX = event.getX();
-                                lastShapeY = startY[0];
-                                lastShapeW = startX[0] - event.getX();
-                                lastShapeH = event.getY() - startY[0];
+                                lastCopyX = event.getX();
+                                lastCopyY = startY[0];
+                                lastCopyW = startX[0] - event.getX();
+                                lastCopyH = event.getY() - startY[0];
                             }
                             // up and to the right
                             else if (startX[0] < event.getX() && startY[0] > event.getY()) {
                                 graphicsContext.strokeRect(startX[0], event.getY(), event.getX() - startX[0], startY[0] - event.getY());
-                                lastShapeX = startX[0];
-                                lastShapeY = event.getY();
-                                lastShapeW = event.getX() - startX[0];
-                                lastShapeH = startY[0] - event.getY();
+                                lastCopyX = startX[0];
+                                lastCopyY = event.getY();
+                                lastCopyW = event.getX() - startX[0];
+                                lastCopyH = startY[0] - event.getY();
                             }
                             // up and to the left
                             else {
                                 graphicsContext.strokeRect(event.getX(), event.getY(), startX[0] - event.getX(), startY[0] - event.getY());
-                                lastShapeX = event.getX();
-                                lastShapeY = event.getY();
-                                lastShapeW = startX[0] - event.getX();
-                                lastShapeH = startY[0] - event.getY();
+                                lastCopyX = event.getX();
+                                lastCopyY = event.getY();
+                                lastCopyW = startX[0] - event.getX();
+                                lastCopyH = startY[0] - event.getY();
                             }
                         }
                     }
@@ -309,16 +387,22 @@ public class paintCanvas {
                 new EventHandler<MouseEvent>() {
 
                     public void handle(MouseEvent event) {
-                        if (paste.isSelected()){
+                        if (pasteButton.isSelected()){
                             graphicsContext.drawImage(clipBoard, event.getX(), event.getY());
-                            paste.setSelected(false);
+                            pasteButton.setSelected(false);
+                            canvasEventLog = "Image pasted at " + Double.toString(event.getX()) + "," + Double.toString(event.getY());
+                        }
+                        else if (cutButton.isSelected()){
+                            graphicsContext.drawImage(clipBoard, event.getX(), event.getY());
+                            cutButton.setSelected(false);
+                            canvasEventLog = "Image cut and pasted at " + Double.toString(event.getX()) + "," + Double.toString(event.getY());
                         }
                         // If pen do nothing
                         else if (comboBox.getValue() == "Pen") {
-
+                            canvasEventLog = "Line drawn ending at " + Double.toString(event.getX()) + "," + Double.toString(event.getY());
                         }
                         else if(comboBox.getValue() == "Eraser"){
-
+                            canvasEventLog = "Eraser used ending at " + Double.toString(event.getX()) + "," + Double.toString(event.getY());
                         }
                         // For each of the shapes we address 4 different directions that the user could drag
                         else if (comboBox.getValue() == "Ellipses") {
@@ -354,6 +438,8 @@ public class paintCanvas {
                                 lastShapeW = startX[0] - event.getX();
                                 lastShapeH = startY[0] - event.getY();
                             }
+                            canvasEventLog = "Ellipses drawn starting at " + Double.toString(startX[0]) + "," + Double.toString(startY[0])
+                                    + " and ending at " + Double.toString(event.getX()) + "," + Double.toString(event.getY());
                         }
                         else if (comboBox.getValue() == "Rectangle") {
                             // down and to the right
@@ -388,6 +474,8 @@ public class paintCanvas {
                                 lastShapeW = startX[0] - event.getX();
                                 lastShapeH = startY[0] - event.getY();
                             }
+                            canvasEventLog = "Rectangle drawn starting at " + Double.toString(startX[0]) + "," + Double.toString(startY[0])
+                                    + " and ending at " + Double.toString(event.getX()) + "," + Double.toString(event.getY());
                         }
                         else if (comboBox.getValue() == "Square") {
                             // down and to the right
@@ -422,6 +510,8 @@ public class paintCanvas {
                                 lastShapeW = startX[0] - event.getX();
                                 lastShapeH = startX[0] - event.getX();
                             }
+                            canvasEventLog = "Square drawn starting at " + Double.toString(startX[0]) + "," + Double.toString(startY[0])
+                                    + " and ending at " + Double.toString(event.getX()) + "," + Double.toString(event.getY());
                         }
                         else if (comboBox.getValue() == "Circle") {
                             // down and to the right
@@ -456,6 +546,9 @@ public class paintCanvas {
                                 lastShapeW = startX[0] - event.getX();
                                 lastShapeH = startX[0] - event.getX();
                             }
+                            canvasEventLog = "Circle drawn starting at " + Double.toString(startX[0]) + "," + Double.toString(startY[0])
+                                    + " and ending at " + Double.toString(event.getX()) + "," + Double.toString(event.getY());
+
                         }
                         else if (comboBox.getValue() == "Triangle") {
                             shapeUtils.strokeTriangle(startX[0], startY[0], event.getX(),event.getY(),graphicsContext);
@@ -463,15 +556,17 @@ public class paintCanvas {
                             lastShapeY = startY[0];
                             lastShapeW = event.getX();
                             lastShapeH = event.getY();
+                            canvasEventLog = "Triangle drawn starting at " + Double.toString(startX[0]) + "," + Double.toString(startY[0])
+                                    + " and ending at " + Double.toString(event.getX()) + "," + Double.toString(event.getY());
                         }
                         else if (comboBox.getValue() == "Polygon") {
 
                             int sides = shapeUtils.askForSides();
-                            double radius = sqrt(pow(abs(startX[0]-event.getX()),2)+pow(abs(startY[0]-event.getY()),2));
+                            double radius = shapeUtils.PythagoreanTheorem(startX[0]-event.getX(), startY[0]-event.getY());
                             double[] xPoints = shapeUtils.getPolygonSides(startX[0], startY[0], radius,sides,true);
                             double[] yPoints = shapeUtils.getPolygonSides(startX[0], startY[0], radius,sides,false);
                             graphicsContext.strokePolygon(xPoints, yPoints, sides);
-
+                            canvasEventLog = "Polygon with " + Double.toString(sides) + " and a center at " + Double.toString(startX[0]) + "," + Double.toString(startY[0]) + " drawn";
                         }
 
                         else if (comboBox.getValue() == "Line") {
@@ -481,14 +576,18 @@ public class paintCanvas {
                             lastShapeY = startY[0];
                             lastShapeW = event.getX();
                             lastShapeH = event.getY();
+                            canvasEventLog = "Line drawn from " + Double.toString(startX[0]) + "," + Double.toString(startY[0]) + " to "
+                                    + Double.toString(event.getX()) + "," + Double.toString(event.getY());
                         }
                         if (event.getButton() == MouseButton.SECONDARY){
                             graphicsContext.drawImage(startState, 0, 0);
-                            Rectangle2D bound = new Rectangle2D(lastShapeX, lastShapeY, lastShapeW, lastShapeH);
+                            Rectangle2D bound = new Rectangle2D(lastCopyX, lastCopyY, lastCopyW, lastCopyH);
                             SnapshotParameters params = new SnapshotParameters();
                             params.setViewport(bound);
                             params.setFill(Color.TRANSPARENT);
                             clipBoard = canvas.snapshot(params, null);
+                            canvasEventLog = "Area selected from " + Double.toString(startX[0]) + "," + Double.toString(startY[0]) + " to "
+                                    + Double.toString(event.getX()) + "," + Double.toString(event.getY());
                         }
                     }
                 });
@@ -507,18 +606,21 @@ public class paintCanvas {
                     // if they said no close the dialog box
                     e.consume();
                 }
+                canvasEventLog = "Canvas cleared";
             }
         });
         undoButton.setOnAction(new EventHandler<ActionEvent>() {
             // Work in progress
             public void handle(ActionEvent e) {
                 undoRedoUtils.undo(undoStack, redoStack, canvas, graphicsContext, widthText, heightText);
+                canvasEventLog = "Undo used";
             }
         });
         redoButton.setOnAction(new EventHandler<ActionEvent>() {
             // Work in progress
             public void handle(ActionEvent e) {
                 undoRedoUtils.redo(undoStack, redoStack, canvas, graphicsContext, widthText, heightText);
+                canvasEventLog = "Redo used";
             }
         });
         fillButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -526,8 +628,50 @@ public class paintCanvas {
             public void handle(ActionEvent e) {
                 // Fill the last thing drawn
                 fillDrawing(fillColorPicker.getValue());
+                canvasEventLog = "Fill tool used with the color" + fillColorPicker.toString();
             }
         });
+        pasteButton.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                cutButton.setSelected(false);
+            }
+        });
+        cutButton.setOnAction(new EventHandler<ActionEvent>() {
+
+            public void handle(ActionEvent e) {
+                pasteButton.setSelected(false);
+                graphicsContext.setLineWidth(0);
+                graphicsContext.setLineDashOffset(0);
+                graphicsContext.setLineDashes(0);
+                graphicsContext.setStroke(Color.WHITE);
+                graphicsContext.setFill(Color.WHITE);
+                graphicsContext.strokeRect(lastCopyX, lastCopyY, lastCopyW, lastCopyH);
+                graphicsContext.fillRect(lastCopyX, lastCopyY, lastCopyW, lastCopyH);
+            }
+        });
+        rotateButton.setOnAction(new EventHandler<ActionEvent>() {
+
+            public void handle(ActionEvent e) {
+                undoRedoUtils.saveState(undoStack, redoStack, canvas);
+                graphicsContext.setLineWidth(0);
+                graphicsContext.setLineDashOffset(0);
+                graphicsContext.setLineDashes(0);
+                graphicsContext.setStroke(Color.WHITE);
+                graphicsContext.setFill(Color.WHITE);
+                graphicsContext.strokeRect(lastCopyX, lastCopyY, lastCopyW, lastCopyH);
+                graphicsContext.fillRect(lastCopyX, lastCopyY, lastCopyW, lastCopyH);
+                graphicsContext.drawImage(startState, 0, 0);
+                startState = undoRedoUtils.getSnapshot(canvas);
+                graphicsContext.save();
+                cutPasteUtils.rotateSection(graphicsContext, rotationAngel, lastCopyX + clipBoard.getWidth() / 2, lastCopyY + clipBoard.getHeight() / 2);
+                graphicsContext.drawImage(clipBoard, lastCopyX, lastCopyY);
+                graphicsContext.restore();
+                canvasEventLog = "Selected area rotated " + Double.toString(rotationAngel)+ " degrees";
+                rotationAngel = rotationAngel + 90;
+                if (rotationAngel > 360) rotationAngel = 0;
+            }
+        });
+
         colorDropper.setOnAction(new EventHandler<ActionEvent>() {
 
             public void handle(ActionEvent e) {
@@ -548,7 +692,7 @@ public class paintCanvas {
         });
     }
 
-    public void pasteImage(Image image) {
+    public void addImage(Image image) {
         undoRedoUtils.saveState(undoStack, redoStack, canvas);
         // Clear the canvas
         graphicsContext.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
@@ -561,6 +705,7 @@ public class paintCanvas {
         // Put the image in upper left of the canvas
         graphicsContext.drawImage(image, 0, 0);
     }
+
 
     public Canvas makeNewBlankCanvas() {
         // Make a blank canvas
@@ -617,7 +762,9 @@ public class paintCanvas {
                 undoButton,
                 redoButton,
                 separator2,
-                paste,
+                pasteButton,
+                cutButton,
+                rotateButton,
                 separator3,
                 drawLabel,
                 comboBox,
@@ -709,13 +856,14 @@ public class paintCanvas {
         WritableImage currentCanvas = captureCanvas();
         // Make a pixel reader for the current canvas
         PixelReader colorReader = currentCanvas.getPixelReader();
-        canvas.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+        canvas.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
 
             public void handle(MouseEvent event) {
                 // If the color dropper is selected get the value of the pixel where the cursor is
                 if (colorDropper.isSelected()) {
                     Color colorGrabbed = colorReader.getColor((int) event.getX(), (int) event.getY());
                     lineColorPicker.setValue(colorGrabbed);
+                    canvasEventLog = "The color " + colorGrabbed.toString() + " was grabbed from " + Double.toString(event.getX()) + "," + Double.toString(event.getY());
                 }
                 // If the color dropper is not selected... don't do this anymore
                 else {
@@ -723,8 +871,6 @@ public class paintCanvas {
                 }
             }
         });
-
-
     }
 
 }

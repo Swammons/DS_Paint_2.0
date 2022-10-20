@@ -1,6 +1,7 @@
 package com.example.dspaint;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -8,16 +9,52 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import static java.lang.System.currentTimeMillis;
+
+/**
+ * Represents base application of paint.
+ * It contains the tab pane.
+ */
 public class paintBase extends Application {
+
+    /**
+     * Represents the number of tabs
+     */
     int tabCount = 1;
+
+    /**
+     * Timer used for tracking
+     */
+    Timer logTimer;
+    TimerTask logEvent;
     @Override
     public void start(Stage stage) throws IOException {
         stage.setTitle("DS Paint");
+        logTimer = new Timer();
         // Declare the initial size of the window on start up
         final double[] windowSize = {1500, 750};
         // Declaring array of paintTabs, for save all and save as all
         final paintTab[] paintTabs = new paintTab[15];
+        logEvent = new TimerTask(){
+            //override run method
+            @Override
+            public void run(){
+                Platform.runLater(() -> {
+                    LocalDateTime time = LocalDateTime.now();
+                    System.out.println("[" + time + "]");
+                    for(paintTab pT : paintTabs){
+                        if(pT != null){
+                            if(pT.isSelected) System.out.println("Current Tap: " + pT.tab.getText() + pT.getLastEventLog());
+                        }
+                    }
+                });
+            }
+        };
+        logTimer.scheduleAtFixedRate(logEvent, 0, 5000);
         // Declaring outermost border pain used to position the menu bar
         BorderPane outsideBorderPane = new BorderPane();
         // Declaring the tab pane
@@ -57,6 +94,7 @@ public class paintBase extends Application {
                 paintTabs[tabCount] = new paintTab("New tab " + Integer.toString(tabCount), stage);
                 // Adding new tab before the "button" tab
                 tabPane.getTabs().add(tabPane.getTabs().size() - 1, paintTabs[tabCount].paintTabBlankInstance());
+                System.out.println(currentTimeMillis());
                 // Selecting the tab before the button, which is the newly created one
                 tabPane.getSelectionModel().select(tabPane.getTabs().size() - 2);
             }

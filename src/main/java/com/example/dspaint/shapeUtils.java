@@ -3,6 +3,8 @@ package com.example.dspaint;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.TextInputDialog;
 
+import static java.lang.Math.*;
+
 public class shapeUtils {
 
     public static void strokeTriangle(double startX, double startY, double xMouse, double yMouse, GraphicsContext graphicsContext) {
@@ -12,7 +14,7 @@ public class shapeUtils {
         if (startX < xMouse && startY > yMouse) {
             xValues[0] = startX;
             xValues[1] = xMouse;
-            xValues[2] = ((xMouse - startX) / 2)+ startX;
+            xValues[2] = triangleHalfWayPoint(xMouse, startX);
             yValues[0] = startY;
             yValues[1] = startY;
             yValues[2] = yMouse;
@@ -75,5 +77,14 @@ public class shapeUtils {
         td.showAndWait();
         sides[0] = Integer.parseInt(td.getEditor().getText());
         return sides[0];
+    }
+
+    public static double PythagoreanTheorem(double xLength, double yLength){
+        // default to 3 sides
+        return sqrt(pow(abs(xLength), 2)+ pow(abs(yLength), 2));
+    }
+
+    public static double triangleHalfWayPoint(double x1, double x2){
+        return ((x1 - x2) / 2) + x2;
     }
 }

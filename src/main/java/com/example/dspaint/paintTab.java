@@ -6,7 +6,6 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -18,17 +17,11 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferInt;
-import java.awt.image.SampleModel;
-import java.awt.image.SinglePixelPackedSampleModel;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -37,6 +30,10 @@ import java.util.Optional;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * Represents an instance of the tab.
+ * This includes the instance of the menu bar.
+ */
 public class paintTab {
     MenuBar menuBar;
     Menu File;
@@ -55,12 +52,12 @@ public class paintTab {
     paintCanvas canvas;
     boolean isSaved;
     boolean autoSaveEnable;
-
     Timer autoSaveTimer;
-
     TimerTask autoSave;
-
     String filePath;
+    String lastTabEventLog;
+    String lastCanvasEventLog;
+    boolean isSelected;
     paintTab(String name, Stage stage){
         // initialize variables
         menuBar = new MenuBar();
@@ -95,6 +92,11 @@ public class paintTab {
         // When the file has just been opened it has not been saved
         isSaved = false;
         autoSaveEnable = false;
+        isSelected = false;
+        // Set up the event log
+        lastTabEventLog = "Tab created";
+        lastCanvasEventLog = "Tab created";
+        // Set up auto save
         autoSaveTimer = new Timer();
         autoSave = new TimerTask(){
             //override run method
@@ -130,10 +132,11 @@ public class paintTab {
                 // make the input stream an image
                 Image image = new Image(fileInputStream);
                 // paste the image on to the canvas
-                canvas.pasteImage(image);
+                canvas.addImage(image);
                 filePath = file.getAbsolutePath();
                 tab.setText(file.getName());
                 isSaved = false;
+                lastTabEventLog = "Image opened in tab";
             }
         });
         SaveAsOp.setOnAction(new EventHandler<ActionEvent>() {
@@ -142,6 +145,7 @@ public class paintTab {
                 isSaved = true;
                 // Save it using a Save As File Chooser
                 Saving(SaveAsWindow(stage));
+                lastTabEventLog = "Tab Saved As";
             }
         });
         SaveOp.setOnAction(new EventHandler<ActionEvent>() {
@@ -156,6 +160,7 @@ public class paintTab {
                     isSaved = true;
                     Saving(SaveAsWindow(stage));
                 }
+                lastTabEventLog = "Tab Saved";
             }
         });
         AutoSaveToggle.setOnAction(new EventHandler<ActionEvent>() {
@@ -238,6 +243,10 @@ public class paintTab {
                 }
         });
 
+        tab.setOnSelectionChanged((Event t) -> {
+            isSelected = !isSelected;
+        });
+
         autoSaveTimer.scheduleAtFixedRate(autoSave, 0, 30000);
     }
 
@@ -308,6 +317,11 @@ public class paintTab {
         Scene dialogScene = new Scene(dialogVbox, 500, 200);
         dialog.setScene(dialogScene);
         dialog.show();
+    }
+
+    public String getLastEventLog(){
+        String output = " |Last Action in Tab: " + lastTabEventLog + " |Last Action in Canvas: " + canvas.canvasEventLog;
+        return output;
     }
 
 }
