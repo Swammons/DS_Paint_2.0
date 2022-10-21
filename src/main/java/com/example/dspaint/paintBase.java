@@ -50,7 +50,7 @@ public class paintBase extends Application {
         FileHandler fh;
         try {
             // This block configure the logger with handler and formatter
-            fh = new FileHandler("C:\\Users\\Drew Simmons\\IdeaProjects\\DS_Paint_2.0\\paintLog.txt");
+            fh = new FileHandler("C:\\Users\\Drew Simmons\\IdeaProjects\\DSPaint\\paintLog.txt");
             logger.addHandler(fh);
             SimpleFormatter formatter = new SimpleFormatter();
             fh.setFormatter(formatter);

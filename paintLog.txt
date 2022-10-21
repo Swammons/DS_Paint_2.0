@@ -1,36 +1,62 @@
-Oct 19, 2022 10:22:05 PM com.example.dspaint.paintBase$1 lambda$run$0
+Oct 21, 2022 1:26:03 PM com.example.dspaint.paintBase$1 lambda$run$0
 INFO:   Current Tap: New tab |Last Action in Tab: Tab created |Last Action in Canvas: Tab Created
-Oct 19, 2022 10:22:10 PM com.example.dspaint.paintBase$1 lambda$run$0
+Oct 21, 2022 1:26:07 PM com.example.dspaint.paintBase$1 lambda$run$0
 INFO:   Current Tap: New tab |Last Action in Tab: Tab created |Last Action in Canvas: Tab Created
-Oct 19, 2022 10:22:15 PM com.example.dspaint.paintBase$1 lambda$run$0
-INFO:   Current Tap: New tab 2 |Last Action in Tab: Tab created |Last Action in Canvas: Tab Created
-Oct 19, 2022 10:22:20 PM com.example.dspaint.paintBase$1 lambda$run$0
-INFO:   Current Tap: New tab 3 |Last Action in Tab: Tab created |Last Action in Canvas: Tab Created
-Oct 19, 2022 10:22:25 PM com.example.dspaint.paintBase$1 lambda$run$0
-INFO:   Current Tap: New tab 3 |Last Action in Tab: Tab created |Last Action in Canvas: Line drawn ending at 601.0,302.0
-Oct 19, 2022 10:22:30 PM com.example.dspaint.paintBase$1 lambda$run$0
-INFO:   Current Tap: New tab 3 |Last Action in Tab: Tab created |Last Action in Canvas: Line drawn ending at 601.0,302.0
-Oct 19, 2022 10:22:35 PM com.example.dspaint.paintBase$1 lambda$run$0
-INFO:   Current Tap: New tab 3 |Last Action in Tab: Tab created |Last Action in Canvas: Line drawn ending at 502.0,223.0
-Oct 19, 2022 10:22:40 PM com.example.dspaint.paintBase$1 lambda$run$0
-INFO:   Current Tap: New tab 3 |Last Action in Tab: Tab created |Last Action in Canvas: Circle drawn starting at 402.0,89.0 and ending at 721.0,344.0
-Oct 19, 2022 10:22:45 PM com.example.dspaint.paintBase$1 lambda$run$0
-INFO:   Current Tap: New tab 3 |Last Action in Tab: Tab created |Last Action in Canvas: Circle drawn starting at 402.0,89.0 and ending at 721.0,344.0
-Oct 19, 2022 10:22:50 PM com.example.dspaint.paintBase$1 lambda$run$0
-INFO:   Current Tap: New tab 3 |Last Action in Tab: Tab created |Last Action in Canvas: Circle drawn starting at 402.0,89.0 and ending at 721.0,344.0
-Oct 19, 2022 10:22:55 PM com.example.dspaint.paintBase$1 lambda$run$0
-INFO:   Current Tap: New tab 3 |Last Action in Tab: Tab created |Last Action in Canvas: Area selected from 380.0,104.0 to 762.0,409.0
-Oct 19, 2022 10:23:00 PM com.example.dspaint.paintBase$1 lambda$run$0
-INFO:   Current Tap: New tab 3 |Last Action in Tab: Tab created |Last Action in Canvas: Selected area rotated 90.0 degrees
-Oct 19, 2022 10:23:05 PM com.example.dspaint.paintBase$1 lambda$run$0
-INFO:   Current Tap: New tab 3 |Last Action in Tab: Tab created |Last Action in Canvas: Selected area rotated 180.0 degrees
-Oct 19, 2022 10:23:10 PM com.example.dspaint.paintBase$1 lambda$run$0
-INFO:   Current Tap: New tab 3 |Last Action in Tab: Tab created |Last Action in Canvas: Selected area rotated 270.0 degrees
-Oct 19, 2022 10:23:15 PM com.example.dspaint.paintBase$1 lambda$run$0
-INFO:   Current Tap: New tab 3 |Last Action in Tab: Tab created |Last Action in Canvas: Selected area rotated 360.0 degrees
-Oct 19, 2022 10:23:20 PM com.example.dspaint.paintBase$1 lambda$run$0
-INFO:   Current Tap: New tab 3 |Last Action in Tab: Tab created |Last Action in Canvas: Selected area rotated 0.0 degrees
-Oct 19, 2022 10:23:25 PM com.example.dspaint.paintBase$1 lambda$run$0
-INFO:   Current Tap: New tab 3 |Last Action in Tab: Tab created |Last Action in Canvas: Selected area rotated 90.0 degrees
-Oct 19, 2022 10:23:30 PM com.example.dspaint.paintBase$1 lambda$run$0
-INFO:   Current Tap: New tab 3 |Last Action in Tab: Tab created |Last Action in Canvas: Selected area rotated 90.0 degrees
+Oct 21, 2022 1:26:12 PM com.example.dspaint.paintBase$1 lambda$run$0
+INFO:   Current Tap: New tab |Last Action in Tab: Tab created |Last Action in Canvas: Tab Created
+Oct 21, 2022 1:26:17 PM com.example.dspaint.paintBase$1 lambda$run$0
+INFO:   Current Tap: New tab |Last Action in Tab: Tab created |Last Action in Canvas: Tab Created
+Oct 21, 2022 1:26:22 PM com.example.dspaint.paintBase$1 lambda$run$0
+INFO:   Current Tap: Modivation.PNG |Last Action in Tab: Image opened in tab |Last Action in Canvas: Tab Created
+Oct 21, 2022 1:26:27 PM com.example.dspaint.paintBase$1 lambda$run$0
+INFO:   Current Tap: Modivation.PNG |Last Action in Tab: Image opened in tab |Last Action in Canvas: Tab Created
+Oct 21, 2022 1:26:32 PM com.example.dspaint.paintBase$1 lambda$run$0
+INFO:   Current Tap: Modivation.PNG |Last Action in Tab: Image opened in tab |Last Action in Canvas: Selected area flipped
+Oct 21, 2022 1:26:37 PM com.example.dspaint.paintBase$1 lambda$run$0
+INFO:   Current Tap: Modivation.PNG |Last Action in Tab: Image opened in tab |Last Action in Canvas: Selected area rotated 0 degrees
+Oct 21, 2022 1:26:42 PM com.example.dspaint.paintBase$1 lambda$run$0
+INFO:   Current Tap: Modivation.PNG |Last Action in Tab: Image opened in tab |Last Action in Canvas: Selected area rotated 180 degrees
+Oct 21, 2022 1:26:47 PM com.example.dspaint.paintBase$1 lambda$run$0
+INFO:   Current Tap: Modivation.PNG |Last Action in Tab: Image opened in tab |Last Action in Canvas: Selected area rotated 180 degrees
+Oct 21, 2022 1:26:52 PM com.example.dspaint.paintBase$1 lambda$run$0
+INFO:   Current Tap: Modivation.PNG |Last Action in Tab: Image opened in tab |Last Action in Canvas: Selected area rotated 180 degrees
+Oct 21, 2022 1:26:57 PM com.example.dspaint.paintBase$1 lambda$run$0
+INFO:   Current Tap: Modivation.PNG |Last Action in Tab: Image opened in tab |Last Action in Canvas: Selected area rotated 180 degrees
+Oct 21, 2022 1:27:02 PM com.example.dspaint.paintBase$1 lambda$run$0
+INFO:   Current Tap: Modivation.PNG |Last Action in Tab: Image opened in tab |Last Action in Canvas: Selected area rotated 180 degrees
+Oct 21, 2022 1:27:07 PM com.example.dspaint.paintBase$1 lambda$run$0
+INFO:   Current Tap: Modivation.PNG |Last Action in Tab: Image opened in tab |Last Action in Canvas: Selected area rotated 180 degrees
+Oct 21, 2022 1:27:12 PM com.example.dspaint.paintBase$1 lambda$run$0
+INFO:   Current Tap: Modivation.PNG |Last Action in Tab: Image opened in tab |Last Action in Canvas: Selected area rotated 180 degrees
+Oct 21, 2022 1:27:17 PM com.example.dspaint.paintBase$1 lambda$run$0
+INFO:   Current Tap: Modivation.PNG |Last Action in Tab: Image opened in tab |Last Action in Canvas: Selected area rotated 180 degrees
+Oct 21, 2022 1:27:22 PM com.example.dspaint.paintBase$1 lambda$run$0
+INFO:   Current Tap: Modivation.PNG |Last Action in Tab: Image opened in tab |Last Action in Canvas: Selected area rotated 180 degrees
+Oct 21, 2022 1:27:27 PM com.example.dspaint.paintBase$1 lambda$run$0
+INFO:   Current Tap: Modivation.PNG |Last Action in Tab: Image opened in tab |Last Action in Canvas: Selected area flipped
+Oct 21, 2022 1:27:32 PM com.example.dspaint.paintBase$1 lambda$run$0
+INFO:   Current Tap: Modivation.PNG |Last Action in Tab: Image opened in tab |Last Action in Canvas: Selected area flipped
+Oct 21, 2022 1:27:37 PM com.example.dspaint.paintBase$1 lambda$run$0
+INFO:   Current Tap: Modivation.PNG |Last Action in Tab: Image opened in tab |Last Action in Canvas: Selected area flipped
+Oct 21, 2022 1:27:42 PM com.example.dspaint.paintBase$1 lambda$run$0
+INFO:   Current Tap: Modivation.PNG |Last Action in Tab: Image opened in tab |Last Action in Canvas: Selected area flipped
+Oct 21, 2022 1:27:47 PM com.example.dspaint.paintBase$1 lambda$run$0
+INFO:   Current Tap: Modivation.PNG |Last Action in Tab: Image opened in tab |Last Action in Canvas: Selected area flipped
+Oct 21, 2022 1:27:52 PM com.example.dspaint.paintBase$1 lambda$run$0
+INFO:   Current Tap: Modivation.PNG |Last Action in Tab: Image opened in tab |Last Action in Canvas: Selected area flipped
+Oct 21, 2022 1:27:57 PM com.example.dspaint.paintBase$1 lambda$run$0
+INFO:   Current Tap: Modivation.PNG |Last Action in Tab: Image opened in tab |Last Action in Canvas: Selected area flipped
+Oct 21, 2022 1:28:02 PM com.example.dspaint.paintBase$1 lambda$run$0
+INFO:   Current Tap: Modivation.PNG |Last Action in Tab: Image opened in tab |Last Action in Canvas: Selected area flipped
+Oct 21, 2022 1:28:07 PM com.example.dspaint.paintBase$1 lambda$run$0
+INFO:   Current Tap: Modivation.PNG |Last Action in Tab: Image opened in tab |Last Action in Canvas: Selected area flipped
+Oct 21, 2022 1:28:12 PM com.example.dspaint.paintBase$1 lambda$run$0
+INFO:   Current Tap: Modivation.PNG |Last Action in Tab: Image opened in tab |Last Action in Canvas: Selected area flipped
+Oct 21, 2022 1:28:17 PM com.example.dspaint.paintBase$1 lambda$run$0
+INFO:   Current Tap: Modivation.PNG |Last Action in Tab: Image opened in tab |Last Action in Canvas: Selected area flipped
+Oct 21, 2022 1:28:22 PM com.example.dspaint.paintBase$1 lambda$run$0
+INFO:   Current Tap: Modivation.PNG |Last Action in Tab: Image opened in tab |Last Action in Canvas: Selected area flipped
+Oct 21, 2022 1:28:27 PM com.example.dspaint.paintBase$1 lambda$run$0
+INFO:   Current Tap: Modivation.PNG |Last Action in Tab: Image opened in tab |Last Action in Canvas: Selected area flipped
+Oct 21, 2022 1:28:32 PM com.example.dspaint.paintBase$1 lambda$run$0
+INFO:   Current Tap: Modivation.PNG |Last Action in Tab: Image opened in tab |Last Action in Canvas: Selected area flipped
