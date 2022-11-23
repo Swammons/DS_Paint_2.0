@@ -12,6 +12,10 @@ import java.awt.image.DataBufferInt;
 import java.awt.image.SampleModel;
 import java.awt.image.SinglePixelPackedSampleModel;
 
+/**
+ * This code is taken directly from the javax.swing.SwingUtilities library
+ * This is because my IDE had difficulty importing this library and this is the solution that worked
+ */
 public class SwingJank {
     public static BufferedImage fromFXImage(Image img, BufferedImage bimg) {
         PixelReader pr = img.getPixelReader();

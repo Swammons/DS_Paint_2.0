@@ -262,6 +262,10 @@ public class paintTab {
         return tab;
     }
 
+    /**
+     * This function takes in a file and saves a snapshot of the paint tab canvas and saves it to that file
+     * @param file The file that will be saved to
+     */
     public void Saving(File file){
         try {
             // take a snapshot of the canvas and save it to the file, defaulting to a png if non is given
@@ -272,12 +276,20 @@ public class paintTab {
             System.out.println(ex.getMessage());
         }
     }
-
+    /**
+     * Returns a Snap shot the tabs canvas
+     * @return A snapshot of the tabs canvas
+     */
     private WritableImage getSnapshot(){
         // get a snapshot of the  current canvas
         return canvas.captureCanvas();
     }
 
+    /**
+     * This method lunches a File chooser window so the user can save a snapshot of the canvas to the file to the path they pick
+     * @param stage The stage
+     * @return the file that the snapshot of the canvas was saved to.
+     */
     private File SaveAsWindow(Stage stage){
         // Pop us with the Save As file chooser
         FileChooser fileChooser = new FileChooser();
@@ -290,6 +302,9 @@ public class paintTab {
         return file;
     }
 
+    /**
+    *This Void function launched the about pop up
+    */
     private void launchAbout(Stage s) {
         // Launch the About window
         final Stage dialog = new Stage();
@@ -297,28 +312,32 @@ public class paintTab {
         dialog.initModality(Modality.APPLICATION_MODAL);
         dialog.initOwner(s);
         GridPane gridPane = new GridPane();
-        Label labelTitle = new Label("What DS Paint tools do?");
-        Label labelClear = new Label("Clear:");
-        Label whatItDoClear = new Label("Will completely reset the canvas (This includes any opened images");
-        Label labelDraw = new Label("Draw:");
-        Label whatItDoDraw = new Label("Toggles the ability to draw on the canvas with the users mouse");
-        Label labelFill = new Label("Fill:");
-        Label whatItDoFill = new Label("Will fill the last shape drawn with the Draw tool");
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
+        Label labelTitle = new Label("What is DS Paint?");
+        Label labelClear = new Label("DS Paint is a digital drawing and light image editing software \r\n" +
+                "made my Drew Simmons in 2022 as part of his CS 250 Object Oriented Programing class");
         VBox dialogVbox = new VBox(20);
         gridPane.add(labelTitle, 0, 0, 2, 1);
         gridPane.add(labelClear, 0, 1, 2, 1);
-        gridPane.add(whatItDoClear, 2, 1, 2, 1);
-        gridPane.add(labelDraw, 0, 2, 2, 1);
-        gridPane.add(whatItDoDraw, 2, 2, 2, 1);
-        gridPane.add(labelFill, 0, 3, 2, 1);
-        gridPane.add(whatItDoFill, 2, 3, 2, 1);
         gridPane.setVgap(10);
         dialogVbox.getChildren().add(gridPane);
         Scene dialogScene = new Scene(dialogVbox, 500, 200);
+        dialogScene.getRoot().setStyle("-fx-accent: #1e74c6;" +
+                "    -fx-focus-color: -fx-accent;" +
+                "    -fx-base: #373e43;" +
+                "    -fx-font-size: 16pt;\n" +
+                "    -fx-font-family: \"Comic Sans MS\";" +
+                "    -fx-control-inner-background: derive(-fx-base, 35%);" +
+                "    -fx-control-inner-background-alt: -fx-control-inner-background;");
         dialog.setScene(dialogScene);
         dialog.show();
     }
 
+    /**
+     * Get the last event in the tab and the last event in the canvas and build a string to be output to the log
+     * @return String with the last Tab and Canvas event
+     */
     public String getLastEventLog(){
         String output = " |Last Action in Tab: " + lastTabEventLog + " |Last Action in Canvas: " + canvas.canvasEventLog;
         return output;

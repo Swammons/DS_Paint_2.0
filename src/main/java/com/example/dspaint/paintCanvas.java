@@ -45,7 +45,6 @@ public class paintCanvas {
     ToggleButton pasteButton;
     ToggleButton cutButton;
     Button rotateButton;
-    Button rotateAllButton;
     double rotationAngel;
     Button flipButton;
     Slider lineSizeSlider;
@@ -70,6 +69,9 @@ public class paintCanvas {
     String canvasEventLog;
     Collection<ChangeListener> listeners;
 
+    /**
+     * Default constructor for the paintCanvas class
+     */
     paintCanvas() {
         // initialize variables
         canvas = new Canvas();
@@ -81,56 +83,50 @@ public class paintCanvas {
         // Clear button set up
         clearCanvas = new Button();
         clearCanvas.setTooltip(new Tooltip("Clear the canvas"));
-        Image clearImage = new Image("C:\\Users\\Drew Simmons\\IdeaProjects\\DSPaint\\src\\main\\resources\\Icons\\eraser.png");
+        Image clearImage = new Image(shapeUtils.getImageDir() + "\\src\\main\\resources\\Icons\\eraser.png");
         ImageView clearImageView = new ImageView(clearImage);
         clearCanvas.setGraphic(clearImageView);
         // Paste button set up
         pasteButton = new ToggleButton();
         pasteButton.setTooltip(new Tooltip("Pastes last image copied to the next place you click"));
-        Image pasteImage = new Image("C:\\Users\\Drew Simmons\\IdeaProjects\\DSPaint\\src\\main\\resources\\Icons\\clipboard2-plus.png");
+        Image pasteImage = new Image(shapeUtils.getImageDir() + "\\src\\main\\resources\\Icons\\clipboard2-plus.png");
         ImageView pasteImageView = new ImageView(pasteImage);
         pasteButton.setGraphic(pasteImageView);
         // Cut button set up
         cutButton = new ToggleButton();
-        Image cutImage = new Image("C:\\Users\\Drew Simmons\\IdeaProjects\\DSPaint\\src\\main\\resources\\Icons\\scissors.png");
+        Image cutImage = new Image(shapeUtils.getImageDir() + "\\src\\main\\resources\\Icons\\scissors.png");
         ImageView cutImageView = new ImageView(cutImage);
         cutButton.setGraphic(cutImageView);
         cutButton.setTooltip(new Tooltip("Cuts out and pastes last image copied to the next place you click"));
         // Rotate button set up
         rotateButton = new Button();
         rotationAngel = 90;
-        Image rotateImage = new Image("C:\\Users\\Drew Simmons\\IdeaProjects\\DSPaint\\src\\main\\resources\\Icons\\arrow-clockwise.png");
+        Image rotateImage = new Image(shapeUtils.getImageDir() + "\\src\\main\\resources\\Icons\\arrow-clockwise.png");
         ImageView rotateImageView = new ImageView(rotateImage);
         rotateButton.setGraphic(rotateImageView);
         rotateButton.setTooltip(new Tooltip("Rotates the last selected area 90 degrees clockwise"));
-        // Rotate all button set up
-        rotateAllButton = new Button("All");
-        Image rotateAllImage = new Image("C:\\Users\\Drew Simmons\\IdeaProjects\\DSPaint\\src\\main\\resources\\Icons\\arrow-clockwise.png");
-        ImageView rotateAllImageView = new ImageView(rotateAllImage);
-        rotateAllButton.setGraphic(rotateAllImageView);
-        rotateAllButton.setTooltip(new Tooltip("Rotates the Canvas 90 degrees clockwise"));
         // Flip button set up
         flipButton = new Button();
-        Image flipImage = new Image("C:\\Users\\Drew Simmons\\IdeaProjects\\DSPaint\\src\\main\\resources\\Icons\\arrows-expand.png");
+        Image flipImage = new Image(shapeUtils.getImageDir() + "\\src\\main\\resources\\Icons\\arrows-expand.png");
         ImageView flipImageView = new ImageView(flipImage);
         flipButton.setGraphic(flipImageView);
         flipButton.setTooltip(new Tooltip("Flips the last selected area"));
         // Fill button set up
         fillButton = new Button();
         fillButton.setTooltip(new Tooltip("Fill last shape drawn"));
-        Image fillImage = new Image("C:\\Users\\Drew Simmons\\IdeaProjects\\DSPaint\\src\\main\\resources\\Icons\\paint-bucket.png");
+        Image fillImage = new Image(shapeUtils.getImageDir() + "\\src\\main\\resources\\Icons\\paint-bucket.png");
         ImageView fillImageView = new ImageView(fillImage);
         fillButton.setGraphic(fillImageView);
         // Undo button set up
         undoButton = new Button();
         undoButton.setTooltip(new Tooltip("Undo last action"));
-        Image undoImage = new Image("C:\\Users\\Drew Simmons\\IdeaProjects\\DSPaint\\src\\main\\resources\\Icons\\arrow-bar-left.png");
+        Image undoImage = new Image(shapeUtils.getImageDir() + "\\src\\main\\resources\\Icons\\arrow-bar-left.png");
         ImageView undoImageView = new ImageView(undoImage);
         undoButton.setGraphic(undoImageView);
         // Redo button set up
         redoButton = new Button();
         redoButton.setTooltip(new Tooltip("Redo last thing Undo"));
-        Image redoImage = new Image("C:\\Users\\Drew Simmons\\IdeaProjects\\DSPaint\\src\\main\\resources\\Icons\\arrow-bar-right.png");
+        Image redoImage = new Image(shapeUtils.getImageDir() + "\\src\\main\\resources\\Icons\\arrow-bar-right.png");
         ImageView redoImageView = new ImageView(redoImage);
         redoButton.setGraphic(redoImageView);
         // Dashed button set up
@@ -142,7 +138,7 @@ public class paintCanvas {
         // Color dropper button set up
         colorDropper = new ToggleButton();
         colorDropper.setTooltip(new Tooltip("Set the color picker to a value from the canvas"));
-        Image colorDropperImage = new Image("C:\\Users\\Drew Simmons\\IdeaProjects\\DSPaint\\src\\main\\resources\\Icons\\eyedropper.png");
+        Image colorDropperImage = new Image(shapeUtils.getImageDir() + "\\src\\main\\resources\\Icons\\eyedropper.png");
         ImageView colorDropperImageView = new ImageView(colorDropperImage);
         colorDropper.setGraphic(colorDropperImageView);
         // Set up line thickness slider
@@ -158,7 +154,7 @@ public class paintCanvas {
         widthText = new TextField("1000");
         widthText.setMaxWidth(50);
         scaleButton = new Button();
-        Image scaleImage = new Image("C:\\Users\\Drew Simmons\\IdeaProjects\\DSPaint\\src\\main\\resources\\Icons\\crop.png");
+        Image scaleImage = new Image(shapeUtils.getImageDir() + "\\src\\main\\resources\\Icons\\crop.png");
         ImageView scaleImageView = new ImageView(scaleImage);
         scaleButton.setGraphic(scaleImageView);
         scaleButton.setTooltip(new Tooltip("Scale the canvas to these number entered to the left"));
@@ -180,12 +176,12 @@ public class paintCanvas {
                         // Set the line size and color to what the toolbar has set
                         graphicsContext.setStroke(lineColorPicker.getValue());
                         graphicsContext.setLineWidth(line_size);
+                        if (line_size == 0) {
+                            line_size = 1;
+                        }
                         // If dash mode is selected then set the dashes
                         if (dashedButton.isSelected()) {
                             // If the line size is 0 make it 1 (This is for when we scale dashes the line size)
-                            if (line_size == 0) {
-                                line_size = 1;
-                            }
                             // Set the dash offset and the dashes to a proportion of the line size
                             graphicsContext.setLineDashOffset(2.5 * line_size);
                             graphicsContext.setLineDashes(5 * line_size);
@@ -195,35 +191,30 @@ public class paintCanvas {
                             graphicsContext.setLineDashOffset(0);
                             graphicsContext.setLineDashes(0);
                         }
-                        if (pasteButton.isSelected()){
-                            startState = undoRedoUtils.getSnapshot(canvas);
-                        }
-                        else if (cutButton.isSelected()){
+                        if (pasteButton.isSelected() || cutButton.isSelected()){
                             startState = undoRedoUtils.getSnapshot(canvas);
                         }
                         // If pen is selected then start making a path at the cursor position
-                        else if (comboBox.getValue() == "Pen") {
-                            graphicsContext.beginPath();
-                            graphicsContext.moveTo(event.getX(), event.getY());
-                            graphicsContext.stroke();
-                        }
-                        else if (comboBox.getValue() == "Eraser") {
-                            graphicsContext.setStroke(Color.WHITE);
-                            graphicsContext.setLineWidth(line_size*3);
-                            graphicsContext.setLineDashOffset(0);
-                            graphicsContext.setLineDashes(0);
-                            graphicsContext.beginPath();
-                            graphicsContext.moveTo(event.getX(), event.getY());
-                            graphicsContext.stroke();
-                        }
-                        // Any tool other than the pen save the cursor position
-                        else if (comboBox.getValue() == "Ellipses" || comboBox.getValue() == "Circle"
-                                || comboBox.getValue() == "Square" || comboBox.getValue() == "Rectangle"
-                                || comboBox.getValue() == "Line" || comboBox.getValue() == "Triangle"
-                                || comboBox.getValue() == "Polygon") {
-                            startX[0] = event.getX();
-                            startY[0] = event.getY();
-                            startState = undoRedoUtils.getSnapshot(canvas);
+                        switch (comboBox.getValue().toString()) {
+                            case "Pen":
+                                graphicsContext.beginPath();
+                                graphicsContext.moveTo(event.getX(), event.getY());
+                                graphicsContext.stroke();
+                                break;
+                            case "Eraser":
+                                graphicsContext.setStroke(Color.WHITE);
+                                graphicsContext.setLineWidth(line_size*3);
+                                graphicsContext.setLineDashOffset(0);
+                                graphicsContext.setLineDashes(0);
+                                graphicsContext.beginPath();
+                                graphicsContext.moveTo(event.getX(), event.getY());
+                                graphicsContext.stroke();
+                                break;
+                            default:
+                                startX[0] = event.getX();
+                                startY[0] = event.getY();
+                                startState = undoRedoUtils.getSnapshot(canvas);
+                                break;
                         }
                         // Selecting tool
                         if (event.getButton() == MouseButton.SECONDARY) {
@@ -239,132 +230,85 @@ public class paintCanvas {
                     }
                 });
 
+
         canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED,
                 new EventHandler<MouseEvent>() {
 
                     public void handle(MouseEvent event) {
-                        if (pasteButton.isSelected()){
+                        if (pasteButton.isSelected() || cutButton.isSelected()){
                             graphicsContext.drawImage(startState, 0, 0);
                             graphicsContext.drawImage(clipBoard, event.getX(), event.getY());
                         }
-                        if (cutButton.isSelected()){
-                            graphicsContext.drawImage(startState, 0, 0);
-                            graphicsContext.drawImage(clipBoard, event.getX(), event.getY());
-                        }
-                        // If pen draw a line along the path to the current cursor position
-                        else if (comboBox.getValue() == "Pen") {
-                            graphicsContext.lineTo(event.getX(), event.getY());
-                            graphicsContext.stroke();
-                        }
-                        // If eraser is selected erase the area around the cursor
-                        else if(comboBox.getValue() == "Eraser"){
-                            graphicsContext.lineTo(event.getX(), event.getY());
-                            graphicsContext.stroke();
-                        }
-                        // Any tool other than the pen do nothing
-                        else if (comboBox.getValue() == "Ellipses" || comboBox.getValue() == "Circle" || comboBox.getValue() == "Square" || comboBox.getValue() == "Rectangle" || comboBox.getValue() == "Triangle" || comboBox.getValue() == "Line" || comboBox.getValue() == "Polygon") {
-                            graphicsContext.drawImage(startState, 0, 0);
-                            if (comboBox.getValue() == "Ellipses") {
-                                // down and to the right
-                                if (startX[0] < event.getX() && startY[0] < event.getY()) {
-                                    graphicsContext.strokeOval(startX[0], startY[0], event.getX() - startX[0], event.getY() - startY[0]);
-                                }
-                                // down and to the left
-                                else if (startX[0] > event.getX() && startY[0] < event.getY()) {
-                                    graphicsContext.strokeOval(event.getX(), startY[0], startX[0] - event.getX(), event.getY() - startY[0]);
-                                }
-                                // up and to the right
-                                else if (startX[0] < event.getX() && startY[0] > event.getY()) {
-                                    graphicsContext.strokeOval(startX[0], event.getY(), event.getX() - startX[0], startY[0] - event.getY());
-                                }
-                                // up and to the left
-                                else {
-                                    graphicsContext.strokeOval(event.getX(), event.getY(), startX[0] - event.getX(), startY[0] - event.getY());
-                                }
+                        // If pen or eraser draw a line along the path to the current cursor position
+                        switch (comboBox.getValue().toString()) {
+                            case "Pen", "Eraser" -> {
+                                graphicsContext.lineTo(event.getX(), event.getY());
+                                graphicsContext.stroke();
                             }
-                            else if (comboBox.getValue() == "Rectangle") {
-                                // down and to the right
-                                if (startX[0] < event.getX() && startY[0] < event.getY()) {
-                                    graphicsContext.strokeRect(startX[0], startY[0], event.getX() - startX[0], event.getY() - startY[0]);
-                                }
-                                // down and to the left
-                                else if (startX[0] > event.getX() && startY[0] < event.getY()) {
-                                    graphicsContext.strokeRect(event.getX(), startY[0], startX[0] - event.getX(), event.getY() - startY[0]);
-                                }
-                                // up and to the right
-                                else if (startX[0] < event.getX() && startY[0] > event.getY()) {
-                                    graphicsContext.strokeRect(startX[0], event.getY(), event.getX() - startX[0], startY[0] - event.getY());
-                                }
-                                // up and to the left
-                                else {
-                                    graphicsContext.strokeRect(event.getX(), event.getY(), startX[0] - event.getX(), startY[0] - event.getY());
-                                }
+                            case "Triangle" -> {
+                                graphicsContext.drawImage(startState, 0, 0);
+                                shapeUtils.strokeTriangle(startX[0], startY[0], event.getX(), event.getY(), graphicsContext);
                             }
-                            else if (comboBox.getValue() == "Square") {
-                                // down and to the right
-                                if (startX[0] < event.getX() && startY[0] < event.getY()) {
-                                    graphicsContext.strokeRect(startX[0], startY[0], event.getX() - startX[0], event.getX() - startX[0]);
-                                }
-                                // down and to the left
-                                else if (startX[0] > event.getX() && startY[0] < event.getY()) {
-                                    graphicsContext.strokeRect(event.getX(), startY[0], startX[0] - event.getX(), startX[0] - event.getX());
-                                }
-                                // up and to the right
-                                else if (startX[0] < event.getX() && startY[0] > event.getY()) {
-                                    graphicsContext.strokeRect(startX[0], event.getY(), event.getX() - startX[0], event.getX() - startX[0]);
-                                }
-                                // up and to the left
-                                else {
-                                    graphicsContext.strokeRect(event.getX(), event.getY(), startX[0] - event.getX(), startX[0] - event.getX());
-                                }
-                            }
-                            else if (comboBox.getValue() == "Circle") {
-                                // down and to the right
-                                if (startX[0] < event.getX() && startY[0] < event.getY()) {
-                                    graphicsContext.strokeOval(startX[0], startY[0], event.getX() - startX[0], event.getX() - startX[0]);
-                                }
-                                // down and to the left
-                                else if (startX[0] > event.getX() && startY[0] < event.getY()) {
-                                    graphicsContext.strokeOval(event.getX(), startY[0], startX[0] - event.getX(), startX[0] - event.getX());
-                                }
-                                // up and to the right
-                                else if (startX[0] < event.getX() && startY[0] > event.getY()) {
-                                    graphicsContext.strokeOval(startX[0], event.getY(), event.getX() - startX[0], event.getX() - startX[0]);
-                                }
-                                // up and to the left
-                                else {
-                                    graphicsContext.strokeOval(event.getX(), event.getY(), startX[0] - event.getX(), startX[0] - event.getX());
-                                }
-                            }
-                            else if (comboBox.getValue() == "Triangle") {
-                                // down and to the right
-                                shapeUtils.strokeTriangle(startX[0], startY[0], event.getX(),event.getY(),graphicsContext);
-                            }
-                            else if (comboBox.getValue() == "Square") {
-                                // down and to the right
-                                if (startX[0] < event.getX() && startY[0] < event.getY()) {
-                                    graphicsContext.strokeRect(startX[0], startY[0], event.getX() - startX[0], event.getX() - startX[0]);
-                                }
-                                // down and to the left
-                                else if (startX[0] > event.getX() && startY[0] < event.getY()) {
-                                    graphicsContext.strokeRect(event.getX(), startY[0], startX[0] - event.getX(), startX[0] - event.getX());
-
-                                }
-                                // up and to the right
-                                else if (startX[0] < event.getX() && startY[0] > event.getY()) {
-                                    graphicsContext.strokeRect(startX[0], event.getY(), event.getX() - startX[0], event.getX() - startX[0]);
-                                }
-                                // up and to the left
-                                else {
-                                    graphicsContext.strokeRect(event.getX(), event.getY(), startX[0] - event.getX(), startX[0] - event.getX());
-                                }
-                            }
-                            else if (comboBox.getValue() == "Line") {
-                                // Line just needs the start X&Y and end X&Y
+                            case "Line" -> {
+                                graphicsContext.drawImage(startState, 0, 0);
                                 graphicsContext.strokeLine(startX[0], startY[0], event.getX(), event.getY());
                             }
+                            case "Ellipses", "Circle", "Square", "Rectangle", "Polygon" -> {
+                                graphicsContext.drawImage(startState, 0, 0);
+                                if (startX[0] < event.getX() && startY[0] < event.getY()) {
+                                    switch (comboBox.getValue().toString()) {
+                                        case "Ellipses" ->
+                                                graphicsContext.strokeOval(startX[0], startY[0], event.getX() - startX[0], event.getY() - startY[0]);
+                                        case "Circle" ->
+                                                graphicsContext.strokeOval(startX[0], startY[0], event.getX() - startX[0], event.getX() - startX[0]);
+                                        case "Square" ->
+                                                graphicsContext.strokeRect(startX[0], startY[0], event.getX() - startX[0], event.getX() - startX[0]);
+                                        case "Rectangle" ->
+                                                graphicsContext.strokeRect(startX[0], startY[0], event.getX() - startX[0], event.getY() - startY[0]);
+                                    }
+                                }
+                                // down and to the left
+                                else if (startX[0] > event.getX() && startY[0] < event.getY()) {
+                                    switch (comboBox.getValue().toString()) {
+                                        case "Ellipses" ->
+                                                graphicsContext.strokeOval(event.getX(), startY[0], startX[0] - event.getX(), event.getY() - startY[0]);
+                                        case "Circle" ->
+                                                graphicsContext.strokeOval(event.getX(), startY[0], startX[0] - event.getX(), startX[0] - event.getX());
+                                        case "Square" ->
+                                                graphicsContext.strokeRect(event.getX(), startY[0], startX[0] - event.getX(), startX[0] - event.getX());
+                                        case "Rectangle" ->
+                                                graphicsContext.strokeRect(event.getX(), startY[0], startX[0] - event.getX(), event.getY() - startY[0]);
+                                    }
+                                }
+                                // up and to the right
+                                else if (startX[0] < event.getX() && startY[0] > event.getY()) {
+                                    switch (comboBox.getValue().toString()) {
+                                        case "Ellipses" ->
+                                                graphicsContext.strokeOval(startX[0], event.getY(), event.getX() - startX[0], startY[0] - event.getY());
+                                        case "Circle" ->
+                                                graphicsContext.strokeOval(startX[0], event.getY(), event.getX() - startX[0], event.getX() - startX[0]);
+                                        case "Square" ->
+                                                graphicsContext.strokeRect(startX[0], event.getY(), event.getX() - startX[0], event.getX() - startX[0]);
+                                        case "Rectangle" ->
+                                                graphicsContext.strokeRect(startX[0], event.getY(), event.getX() - startX[0], startY[0] - event.getY());
+                                    }
+                                }
+                                // up and to the left
+                                else {
+                                    switch (comboBox.getValue().toString()) {
+                                        case "Ellipses" ->
+                                                graphicsContext.strokeOval(event.getX(), event.getY(), startX[0] - event.getX(), startY[0] - event.getY());
+                                        case "Circle" ->
+                                                graphicsContext.strokeOval(event.getX(), event.getY(), startX[0] - event.getX(), startX[0] - event.getX());
+                                        case "Square" ->
+                                                graphicsContext.strokeRect(event.getX(), event.getY(), startX[0] - event.getX(), startX[0] - event.getX());
+                                        case "Rectangle" ->
+                                                graphicsContext.strokeRect(startX[0], event.getY(), event.getX() - startX[0], startY[0] - event.getY());
+                                    }
+                                }
+                            }
                         }
-                        if (event.getButton() == MouseButton.SECONDARY) {
+                        if (event.getButton() == MouseButton.SECONDARY && event.getButton() != MouseButton.PRIMARY) {
                             graphicsContext.drawImage(startState, 0, 0);
                             if (startX[0] < event.getX() && startY[0] < event.getY()) {
                                 graphicsContext.strokeRect(startX[0], startY[0], event.getX() - startX[0], event.getY() - startY[0]);
@@ -415,189 +359,178 @@ public class paintCanvas {
                             cutButton.setSelected(false);
                             canvasEventLog = "Image cut and pasted at " + Integer.toString((int)event.getX()) + "," + Integer.toString((int)event.getY());
                         }
-                        // If pen do nothing
-                        else if (comboBox.getValue() == "Pen") {
-                            canvasEventLog = "Line drawn ending at " + Integer.toString((int)event.getX()) + "," + Integer.toString((int)event.getY());
-                        }
-                        else if(comboBox.getValue() == "Eraser"){
-                            canvasEventLog = "Eraser used ending at " + Integer.toString((int)event.getX()) + "," + Integer.toString((int)event.getY());
-                        }
-                        // For each of the shapes we address 4 different directions that the user could drag
-                        else if (comboBox.getValue() == "Ellipses") {
-                            // down and to the right
-                            if (startX[0] < event.getX() && startY[0] < event.getY()) {
-                                graphicsContext.strokeOval(startX[0], startY[0], event.getX() - startX[0], event.getY() - startY[0]);
+                        switch (comboBox.getValue().toString()) {
+                            case "Pen" -> {
+                                canvasEventLog = "Line drawn ending at " + Integer.toString((int)event.getX()) + "," + Integer.toString((int)event.getY());
+                            }
+                            case "Eraser" ->{
+                                canvasEventLog = "Eraser used ending at " + Integer.toString((int)event.getX()) + "," + Integer.toString((int)event.getY());
+                            }
+                            case "Triangle" -> {
+                                shapeUtils.strokeTriangle(startX[0], startY[0], event.getX(),event.getY(),graphicsContext);
                                 lastShapeX = startX[0];
                                 lastShapeY = startY[0];
-                                lastShapeW = event.getX() - startX[0];
-                                lastShapeH = event.getY() - startY[0];
+                                lastShapeW = event.getX();
+                                lastShapeH = event.getY();
+                                canvasEventLog = "Triangle drawn starting at " + Double.toString(startX[0]) + "," + Double.toString(startY[0])
+                                        + " and ending at " + Integer.toString((int)event.getX()) + "," + Integer.toString((int)event.getY());
                             }
-                            // down and to the left
-                            else if (startX[0] > event.getX() && startY[0] < event.getY()) {
-                                graphicsContext.strokeOval(event.getX(), startY[0], startX[0] - event.getX(), event.getY() - startY[0]);
-                                lastShapeX = event.getX();
-                                lastShapeY = startY[0];
-                                lastShapeW = startX[0] - event.getX();
-                                lastShapeH = event.getY() - startY[0];
-                            }
-                            // up and to the right
-                            else if (startX[0] < event.getX() && startY[0] > event.getY()) {
-                                graphicsContext.strokeOval(startX[0], event.getY(), event.getX() - startX[0], startY[0] - event.getY());
-                                lastShapeX = startX[0];
-                                lastShapeY = event.getY();
-                                lastShapeW = event.getX() - startX[0];
-                                lastShapeH = startY[0] - event.getY();
-                            }
-                            // up and to the left
-                            else {
-                                graphicsContext.strokeOval(event.getX(), event.getY(), startX[0] - event.getX(), startY[0] - event.getY());
-                                lastShapeX = event.getX();
-                                lastShapeY = event.getY();
-                                lastShapeW = startX[0] - event.getX();
-                                lastShapeH = startY[0] - event.getY();
-                            }
-                            canvasEventLog = "Ellipses drawn starting at " + Integer.toString((int)startX[0]) + "," + Integer.toString((int)startY[0])
-                                    + " and ending at " + Integer.toString((int)event.getX()) + "," + Integer.toString((int)event.getY());
-                        }
-                        else if (comboBox.getValue() == "Rectangle") {
-                            // down and to the right
-                            if (startX[0] < event.getX() && startY[0] < event.getY()) {
-                                graphicsContext.strokeRect(startX[0], startY[0], event.getX() - startX[0], event.getY() - startY[0]);
+                            case "Line" -> {
+                                // Line just needs the start X&Y and end X&Y
+                                graphicsContext.strokeLine(startX[0], startY[0], event.getX(), event.getY());
                                 lastShapeX = startX[0];
                                 lastShapeY = startY[0];
-                                lastShapeW = event.getX() - startX[0];
-                                lastShapeH = event.getY() - startY[0];
+                                lastShapeW = event.getX();
+                                lastShapeH = event.getY();
+                                canvasEventLog = "Line drawn from " + Integer.toString((int)startX[0]) + "," + Integer.toString((int)startY[0]) + " to "
+                                        + Integer.toString((int)event.getX()) + "," + Integer.toString((int)event.getY());
                             }
-                            // down and to the left
-                            else if (startX[0] > event.getX() && startY[0] < event.getY()) {
-                                graphicsContext.strokeRect(event.getX(), startY[0], startX[0] - event.getX(), event.getY() - startY[0]);
-                                lastShapeX = event.getX();
-                                lastShapeY = startY[0];
-                                lastShapeW = startX[0] - event.getX();
-                                lastShapeH = event.getY() - startY[0];
+                            case "Polygon" -> {
+                                int sides = shapeUtils.askForSides();
+                                double radius = shapeUtils.PythagoreanTheorem(startX[0]-event.getX(), startY[0]-event.getY());
+                                double[] xPoints = shapeUtils.getPolygonSides(startX[0], startY[0], radius,sides,true);
+                                double[] yPoints = shapeUtils.getPolygonSides(startX[0], startY[0], radius,sides,false);
+                                graphicsContext.strokePolygon(xPoints, yPoints, sides);
+                                canvasEventLog = "Polygon with " + Integer.toString(sides) + " and a center at " + Integer.toString((int)startX[0]) + "," + Integer.toString((int)startY[0]) + " drawn";
                             }
-                            // up and to the right
-                            else if (startX[0] < event.getX() && startY[0] > event.getY()) {
-                                graphicsContext.strokeRect(startX[0], event.getY(), event.getX() - startX[0], startY[0] - event.getY());
-                                lastShapeX = startX[0];
-                                lastShapeY = event.getY();
-                                lastShapeW = event.getX() - startX[0];
-                                lastShapeH = startY[0] - event.getY();
+                            case "Ellipses", "Circle", "Square", "Rectangle" -> {
+                                graphicsContext.drawImage(startState, 0, 0);
+                                if (startX[0] < event.getX() && startY[0] < event.getY()) {
+                                    switch (comboBox.getValue().toString()) {
+                                        case "Ellipses" -> {
+                                            graphicsContext.strokeOval(startX[0], startY[0], event.getX() - startX[0], event.getY() - startY[0]);
+                                            lastShapeX = startX[0];
+                                            lastShapeY = startY[0];
+                                            lastShapeW = event.getX() - startX[0];
+                                            lastShapeH = event.getY() - startY[0];
+                                        }
+                                        case "Circle" -> {
+                                            graphicsContext.strokeOval(startX[0], startY[0], event.getX() - startX[0], event.getX() - startX[0]);
+                                            lastShapeX = startX[0];
+                                            lastShapeY = startY[0];
+                                            lastShapeW = event.getX() - startX[0];
+                                            lastShapeH = event.getX() - startX[0];
+                                        }
+                                        case "Square" -> {
+                                            graphicsContext.strokeRect(startX[0], startY[0], event.getX() - startX[0], event.getX() - startX[0]);
+                                            lastShapeX = startX[0];
+                                            lastShapeY = startY[0];
+                                            lastShapeW = event.getX() - startX[0];
+                                            lastShapeH = event.getX() - startX[0];
+                                        }
+                                        case "Rectangle" -> {
+                                            graphicsContext.strokeRect(startX[0], startY[0], event.getX() - startX[0], event.getY() - startY[0]);
+                                            lastShapeX = startX[0];
+                                            lastShapeY = startY[0];
+                                            lastShapeW = event.getX() - startX[0];
+                                            lastShapeH = event.getY() - startY[0];
+                                        }
+                                    }
+                                }
+                                // down and to the left
+                                else if (startX[0] > event.getX() && startY[0] < event.getY()) {
+                                    switch (comboBox.getValue().toString()) {
+                                        case "Ellipses" -> {
+                                            graphicsContext.strokeOval(event.getX(), startY[0], startX[0] - event.getX(), event.getY() - startY[0]);
+                                            lastShapeX = event.getX();
+                                            lastShapeY = startY[0];
+                                            lastShapeW = startX[0] - event.getX();
+                                            lastShapeH = event.getY() - startY[0];
+                                        }
+                                        case "Circle" -> {
+                                            graphicsContext.strokeOval(event.getX(), startY[0], startX[0] - event.getX(), startX[0] - event.getX());
+                                            lastShapeX = event.getX();
+                                            lastShapeY = startY[0];
+                                            lastShapeW = startX[0] - event.getX();
+                                            lastShapeH = startX[0] - event.getX();
+                                        }
+                                        case "Square" -> {
+                                            graphicsContext.strokeRect(event.getX(), startY[0], startX[0] - event.getX(), startX[0] - event.getX());
+                                            lastShapeX = event.getX();
+                                            lastShapeY = startY[0];
+                                            lastShapeW = startX[0] - event.getX();
+                                            lastShapeH = startX[0] - event.getX();
+                                        }
+                                        case "Rectangle" -> {
+                                            graphicsContext.strokeRect(event.getX(), startY[0], startX[0] - event.getX(), event.getY() - startY[0]);
+                                            lastShapeX = event.getX();
+                                            lastShapeY = startY[0];
+                                            lastShapeW = startX[0] - event.getX();
+                                            lastShapeH = event.getY() - startY[0];
+                                        }
+                                    }
+                                }
+                                // up and to the right
+                                else if (startX[0] < event.getX() && startY[0] > event.getY()) {
+                                    switch (comboBox.getValue().toString()) {
+                                        case "Ellipses" -> {
+                                            graphicsContext.strokeOval(startX[0], event.getY(), event.getX() - startX[0], startY[0] - event.getY());
+                                            lastShapeX = startX[0];
+                                            lastShapeY = event.getY();
+                                            lastShapeW = event.getX() - startX[0];
+                                            lastShapeH = startY[0] - event.getY();
+                                        }
+                                        case "Circle" -> {
+                                            graphicsContext.strokeOval(startX[0], event.getY(), event.getX() - startX[0], event.getX() - startX[0]);
+                                            lastShapeX = startX[0];
+                                            lastShapeY = event.getY();
+                                            lastShapeW = event.getX() - startX[0];
+                                            lastShapeH = event.getX() - startX[0];
+                                        }
+                                        case "Square" -> {
+                                            graphicsContext.strokeRect(startX[0], event.getY(), event.getX() - startX[0], event.getX() - startX[0]);
+                                            lastShapeX = startX[0];
+                                            lastShapeY = event.getY();
+                                            lastShapeW = event.getX() - startX[0];
+                                            lastShapeH = event.getX() - startX[0];
+                                        }
+                                        case "Rectangle" -> {
+                                            graphicsContext.strokeRect(startX[0], event.getY(), event.getX() - startX[0], startY[0] - event.getY());
+                                            lastShapeX = startX[0];
+                                            lastShapeY = event.getY();
+                                            lastShapeW = event.getX() - startX[0];
+                                            lastShapeH = startY[0] - event.getY();
+                                        }
+                                    }
+                                }
+                                // up and to the left
+                                else {
+                                    switch (comboBox.getValue().toString()) {
+                                        case "Ellipses" -> {
+                                            graphicsContext.strokeOval(event.getX(), event.getY(), startX[0] - event.getX(), startY[0] - event.getY());
+                                            lastShapeX = event.getX();
+                                            lastShapeY = event.getY();
+                                            lastShapeW = startX[0] - event.getX();
+                                            lastShapeH = startY[0] - event.getY();
+                                        }
+                                        case "Circle" -> {
+                                            graphicsContext.strokeOval(event.getX(), event.getY(), startX[0] - event.getX(), startX[0] - event.getX());
+                                            lastShapeX = event.getX();
+                                            lastShapeY = event.getY();
+                                            lastShapeW = startX[0] - event.getX();
+                                            lastShapeH = startX[0] - event.getX();
+                                        }
+                                        case "Square" -> {
+                                            graphicsContext.strokeRect(event.getX(), event.getY(), startX[0] - event.getX(), startX[0] - event.getX());
+                                            lastShapeX = event.getX();
+                                            lastShapeY = event.getY();
+                                            lastShapeW = startX[0] - event.getX();
+                                            lastShapeH = startX[0] - event.getX();
+                                        }
+                                        case "Rectangle" -> {
+                                            graphicsContext.strokeRect(startX[0], event.getY(), event.getX() - startX[0], startY[0] - event.getY());
+                                            lastShapeX = event.getX();
+                                            lastShapeY = event.getY();
+                                            lastShapeW = startX[0] - event.getX();
+                                            lastShapeH = startY[0] - event.getY();
+                                        }
+                                    }
+                                }
+                                canvasEventLog = comboBox.getValue().toString() + " drawn starting at " + Integer.toString((int)startX[0]) + "," + Integer.toString((int)startY[0])
+                                        + " and ending at " + Integer.toString((int)event.getX()) + "," + Integer.toString((int)event.getY());
                             }
-                            // up and to the left
-                            else {
-                                graphicsContext.strokeRect(event.getX(), event.getY(), startX[0] - event.getX(), startY[0] - event.getY());
-                                lastShapeX = event.getX();
-                                lastShapeY = event.getY();
-                                lastShapeW = startX[0] - event.getX();
-                                lastShapeH = startY[0] - event.getY();
-                            }
-                            canvasEventLog = "Rectangle drawn starting at " + Integer.toString((int)startX[0]) + "," + Integer.toString((int)startY[0])
-                                    + " and ending at " + Integer.toString((int)event.getX()) + "," + Integer.toString((int)event.getY());
                         }
-                        else if (comboBox.getValue() == "Square") {
-                            // down and to the right
-                            if (startX[0] < event.getX() && startY[0] < event.getY()) {
-                                graphicsContext.strokeRect(startX[0], startY[0], event.getX() - startX[0], event.getX() - startX[0]);
-                                lastShapeX = startX[0];
-                                lastShapeY = startY[0];
-                                lastShapeW = event.getX() - startX[0];
-                                lastShapeH = event.getX() - startX[0];
-                            }
-                            // down and to the left
-                            else if (startX[0] > event.getX() && startY[0] < event.getY()) {
-                                graphicsContext.strokeRect(event.getX(), startY[0], startX[0] - event.getX(), startX[0] - event.getX());
-                                lastShapeX = event.getX();
-                                lastShapeY = startY[0];
-                                lastShapeW = startX[0] - event.getX();
-                                lastShapeH = startX[0] - event.getX();
-                            }
-                            // up and to the right
-                            else if (startX[0] < event.getX() && startY[0] > event.getY()) {
-                                graphicsContext.strokeRect(startX[0], event.getY(), event.getX() - startX[0], event.getX() - startX[0]);
-                                lastShapeX = startX[0];
-                                lastShapeY = event.getY();
-                                lastShapeW = event.getX() - startX[0];
-                                lastShapeH = event.getX() - startX[0];
-                            }
-                            // up and to the left
-                            else {
-                                graphicsContext.strokeRect(event.getX(), event.getY(), startX[0] - event.getX(), startX[0] - event.getX());
-                                lastShapeX = event.getX();
-                                lastShapeY = event.getY();
-                                lastShapeW = startX[0] - event.getX();
-                                lastShapeH = startX[0] - event.getX();
-                            }
-                            canvasEventLog = "Square drawn starting at " + Integer.toString((int)startX[0]) + "," + Integer.toString((int)startY[0])
-                                    + " and ending at " + Integer.toString((int)event.getX()) + "," + Integer.toString((int)event.getY());
-                        }
-                        else if (comboBox.getValue() == "Circle") {
-                            // down and to the right
-                            if (startX[0] < event.getX() && startY[0] < event.getY()) {
-                                graphicsContext.strokeOval(startX[0], startY[0], event.getX() - startX[0], event.getX() - startX[0]);
-                                lastShapeX = startX[0];
-                                lastShapeY = startY[0];
-                                lastShapeW = event.getX() - startX[0];
-                                lastShapeH = event.getX() - startX[0];
-                            }
-                            // down and to the left
-                            else if (startX[0] > event.getX() && startY[0] < event.getY()) {
-                                graphicsContext.strokeOval(event.getX(), startY[0], startX[0] - event.getX(), startX[0] - event.getX());
-                                lastShapeX = event.getX();
-                                lastShapeY = startY[0];
-                                lastShapeW = startX[0] - event.getX();
-                                lastShapeH = startX[0] - event.getX();
-                            }
-                            // up and to the right
-                            else if (startX[0] < event.getX() && startY[0] > event.getY()) {
-                                graphicsContext.strokeOval(startX[0], event.getY(), event.getX() - startX[0], event.getX() - startX[0]);
-                                lastShapeX = startX[0];
-                                lastShapeY = event.getY();
-                                lastShapeW = event.getX() - startX[0];
-                                lastShapeH = event.getX() - startX[0];
-                            }
-                            // up and to the left
-                            else {
-                                graphicsContext.strokeOval(event.getX(), event.getY(), startX[0] - event.getX(), startX[0] - event.getX());
-                                lastShapeX = event.getX();
-                                lastShapeY = event.getY();
-                                lastShapeW = startX[0] - event.getX();
-                                lastShapeH = startX[0] - event.getX();
-                            }
-                            canvasEventLog = "Circle drawn starting at " + Integer.toString((int)startX[0]) + "," + Integer.toString((int)startY[0])
-                                    + " and ending at " + Integer.toString((int)event.getX()) + "," + Integer.toString((int)event.getY());
-
-                        }
-                        else if (comboBox.getValue() == "Triangle") {
-                            shapeUtils.strokeTriangle(startX[0], startY[0], event.getX(),event.getY(),graphicsContext);
-                            lastShapeX = startX[0];
-                            lastShapeY = startY[0];
-                            lastShapeW = event.getX();
-                            lastShapeH = event.getY();
-                            canvasEventLog = "Triangle drawn starting at " + Double.toString(startX[0]) + "," + Double.toString(startY[0])
-                                    + " and ending at " + Integer.toString((int)event.getX()) + "," + Integer.toString((int)event.getY());
-                        }
-                        else if (comboBox.getValue() == "Polygon") {
-
-                            int sides = shapeUtils.askForSides();
-                            double radius = shapeUtils.PythagoreanTheorem(startX[0]-event.getX(), startY[0]-event.getY());
-                            double[] xPoints = shapeUtils.getPolygonSides(startX[0], startY[0], radius,sides,true);
-                            double[] yPoints = shapeUtils.getPolygonSides(startX[0], startY[0], radius,sides,false);
-                            graphicsContext.strokePolygon(xPoints, yPoints, sides);
-                            canvasEventLog = "Polygon with " + Integer.toString(sides) + " and a center at " + Integer.toString((int)startX[0]) + "," + Integer.toString((int)startY[0]) + " drawn";
-                        }
-
-                        else if (comboBox.getValue() == "Line") {
-                            // Line just needs the start X&Y and end X&Y
-                            graphicsContext.strokeLine(startX[0], startY[0], event.getX(), event.getY());
-                            lastShapeX = startX[0];
-                            lastShapeY = startY[0];
-                            lastShapeW = event.getX();
-                            lastShapeH = event.getY();
-                            canvasEventLog = "Line drawn from " + Integer.toString((int)startX[0]) + "," + Integer.toString((int)startY[0]) + " to "
-                                    + Integer.toString((int)event.getX()) + "," + Integer.toString((int)event.getY());
-                        }
-                        if (event.getButton() == MouseButton.SECONDARY){
+                        if (event.getButton() == MouseButton.SECONDARY && event.getButton() != MouseButton.PRIMARY){
                             graphicsContext.drawImage(startState, 0, 0);
                             Rectangle2D bound = new Rectangle2D(lastCopyX, lastCopyY, lastCopyW, lastCopyH);
                             SnapshotParameters params = new SnapshotParameters();
@@ -712,18 +645,11 @@ public class paintCanvas {
                 graphicsContext.drawImage(clipBoard, 0, 0, clipBoard.getWidth(), clipBoard.getHeight(), lastCopyX + lastCopyW,lastCopyY,-clipBoard.getWidth(),clipBoard.getHeight());
                 graphicsContext.restore();
                 canvasEventLog = "Selected area flipped";
-                undoRedoUtils.saveState(undoStack, redoStack, canvas);
-            }
-        });
-
-        rotateAllButton.setOnAction(new EventHandler<ActionEvent>() {
-
-            public void handle(ActionEvent e) {
-                comboBox.setValue("None");
-                canvas.setRotate(canvas.getRotate()+90);
-                widthText.setText(Double.toString(canvas.getHeight()));
-                heightText.setText(Double.toString(canvas.getWidth()));
-                canvasEventLog = "Canvas flipped";
+                Rectangle2D bound = new Rectangle2D(lastCopyX, lastCopyY, lastCopyW, lastCopyH);
+                SnapshotParameters params = new SnapshotParameters();
+                params.setViewport(bound);
+                params.setFill(Color.TRANSPARENT);
+                clipBoard = canvas.snapshot(params, null);
                 undoRedoUtils.saveState(undoStack, redoStack, canvas);
             }
         });
@@ -748,6 +674,11 @@ public class paintCanvas {
         });
     }
 
+    /**
+     * Takes an image, clears the current canvas, and then overlays that image on the canvas
+     * also scales the canvas to the image
+     * @param image Image that is added to the canvas
+     */
     public void addImage(Image image) {
         undoRedoUtils.saveState(undoStack, redoStack, canvas);
         // Clear the canvas
@@ -762,9 +693,14 @@ public class paintCanvas {
         graphicsContext.drawImage(image, 0, 0);
     }
 
-
+    /**
+     * Clear the canvas, scale to 1000x500, take a picture of the clear canvas,
+     * paste that image on the canvas to make it all white
+     * @return A blank 1000x500 canvas
+     */
     public Canvas makeNewBlankCanvas() {
         // Make a blank canvas
+        graphicsContext.clearRect(0,0,1000,500);
         canvas.setWidth(1000);
         canvas.setHeight(500);
         Image newBlank = undoRedoUtils.getSnapshot(canvas);
@@ -772,6 +708,10 @@ public class paintCanvas {
         return canvas;
     }
 
+    /**
+     * Make the toolbar for the Canvas
+     * @return toolBar
+     */
     public ToolBar tabToolBar() {
         // Construct the toolbar
         lineColorPicker.setValue(Color.BLACK);
@@ -815,7 +755,6 @@ public class paintCanvas {
         selectorTools.add(cutButton,1,0);
         selectorTools.add(rotateButton,0,1);
         selectorTools.add(flipButton,1,1);
-        selectorTools.add(rotateAllButton,2,0);
         Label drawLabel = new Label("Draw Tools");
         Label fillLabel = new Label("Fill Tools");
         Label hLabel = new Label("Height: ");
@@ -849,6 +788,10 @@ public class paintCanvas {
         return toolBar;
     }
 
+    /**
+     * Take a snapshot of the canvas and make it a WritableImage
+     * @return writableImage of the canvas
+     */
     public WritableImage captureCanvas() {
         // take a screenshot of the canvas and return is as a writable image
         WritableImage writableImage = new WritableImage((int) canvas.getWidth(), (int) canvas.getHeight());
@@ -856,6 +799,11 @@ public class paintCanvas {
         return writableImage;
     }
 
+    /**
+     * Fill in the last shape that the user drew
+     * this works for Pen, Ellipses, Circle, Rectangle, Square, and triangle
+     * @param color The color that the shape will be filled in with
+     */
     private void fillDrawing(Color color) {
         undoRedoUtils.saveState(undoStack, redoStack, canvas);
         // Set fill to the color of the fill color picker
@@ -913,6 +861,9 @@ public class paintCanvas {
         }
     }
 
+    /**
+     * Makes a writable image of the canvas and gets the color value of the pixel that the user clicked with the cursor
+     */
     private void colorGrabber() {
         // Save the current canvas as a writable image
         WritableImage currentCanvas = captureCanvas();

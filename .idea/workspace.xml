@@ -1,19 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="ANALYZE_TEST_SOURCES" value="false" />
+  </component>
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="DSPaint:jar" />
+    </artifacts-to-build>
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1840403e-526a-468c-b49f-3948521b3b28" name="Changes" comment="2.2.1 Auto Save Added">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Icons/arrow-clockwise.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Icons/arrows-expand.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Icons/scissors.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/DSPaint_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/paintLog.txt" beforeDir="false" afterPath="$PROJECT_DIR$/paintLog.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/paintLog.txt.lck" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dspaint/SwingJank.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/dspaint/SwingJank.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dspaint/cutPasteUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/dspaint/cutPasteUtils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dspaint/paintBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/dspaint/paintBase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dspaint/paintBaseController.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dspaint/paintCanvas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/dspaint/paintCanvas.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dspaint/paintTab.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/dspaint/paintTab.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dspaint/shapeUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/dspaint/shapeUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dspaint/undoRedoUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/dspaint/undoRedoUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/com/example/dspaint/shapeUtilsTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/com/example/dspaint/shapeutilstest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,10 +71,11 @@
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
     "create.test.in.the.same.root": "true",
     "jdk.selected.JAVA_MODULE": "18",
-    "last_opened_file_path": "C:/Users/Drew Simmons/IdeaProjects/DSPaint/src/main/resources/Icons",
-    "project.structure.last.edited": "Modules",
+    "last_opened_file_path": "C:/Program Files/Java/jdk-18.0.2.1",
+    "project.structure.last.edited": "SDKs",
     "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2"
+    "project.structure.side.proportion": "0.3494253",
+    "settings.editor.selected.configurable": "editor.preferences.appearance"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -80,7 +94,20 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration name="shapeUtilsTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="paintBase" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.example.dspaint.paintBase" />
+      <module name="DSPaint" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.dspaint.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="shapeutilstest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="DSPaint" />
       <extension name="coverage">
         <pattern>
@@ -89,13 +116,13 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.example.dspaint" />
-      <option name="MAIN_CLASS_NAME" value="com.example.dspaint.shapeUtilsTest" />
+      <option name="MAIN_CLASS_NAME" value="com.example.dspaint.shapeutilstest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="shapeUtilsTest.PythagoreanTheorem" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="shapeutilstest.PythagoreanTheorem" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="DSPaint" />
       <extension name="coverage">
         <pattern>
@@ -104,51 +131,37 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.example.dspaint" />
-      <option name="MAIN_CLASS_NAME" value="com.example.dspaint.shapeUtilsTest" />
+      <option name="MAIN_CLASS_NAME" value="com.example.dspaint.shapeutilstest" />
       <option name="METHOD_NAME" value="PythagoreanTheorem" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="shapeUtilsTest.askForSides" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="DSPaint" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.example.dspaint.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.example.dspaint" />
-      <option name="MAIN_CLASS_NAME" value="com.example.dspaint.shapeUtilsTest" />
-      <option name="METHOD_NAME" value="askForSides" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
+    <configuration name="DSPaint.jar (1)" type="JarApplication" temporary="true">
+      <option name="JAR_PATH" value="$PROJECT_DIR$/out/artifacts/DSPaint/DSPaint.jar" />
+      <method v="2" />
     </configuration>
-    <configuration name="shapeUtilsTest.getPolygonSides" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="DSPaint" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.example.dspaint.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.example.dspaint" />
-      <option name="MAIN_CLASS_NAME" value="com.example.dspaint.shapeUtilsTest" />
-      <option name="METHOD_NAME" value="getPolygonSides" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
+    <configuration name="DSPaint.jar" type="JarApplication" temporary="true">
+      <option name="JAR_PATH" value="$PROJECT_DIR$/out/artifacts/DSPaint_jar/DSPaint.jar" />
+      <option name="VM_PARAMETERS" value="--module-path &quot;\path\to\javafx-sdk-18\lib&quot; --add-modules javafx.controls,javafx.fxml " />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Application.paintBase" />
+      <item itemvalue="JAR Application.DSPaint.jar (1)" />
+      <item itemvalue="JAR Application.DSPaint.jar" />
+      <item itemvalue="JUnit.shapeutilstest" />
+      <item itemvalue="JUnit.shapeutilstest.PythagoreanTheorem" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.shapeUtilsTest" />
-        <item itemvalue="JUnit.shapeUtilsTest.PythagoreanTheorem" />
-        <item itemvalue="JUnit.shapeUtilsTest.askForSides" />
-        <item itemvalue="JUnit.shapeUtilsTest.getPolygonSides" />
+        <item itemvalue="JAR Application.DSPaint.jar" />
+        <item itemvalue="JAR Application.DSPaint.jar (1)" />
+        <item itemvalue="Application.paintBase" />
+        <item itemvalue="JUnit.shapeutilstest" />
+        <item itemvalue="JUnit.shapeutilstest.PythagoreanTheorem" />
       </list>
     </recent_temporary>
   </component>

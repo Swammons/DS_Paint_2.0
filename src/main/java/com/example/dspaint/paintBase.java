@@ -7,13 +7,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.time.LocalDateTime;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.FileHandler;
@@ -38,6 +32,12 @@ public class paintBase extends Application {
      */
     Timer logTimer;
     TimerTask logEvent;
+
+    /**
+     *Lunches the DS Paint application
+     * @param stage The stage of the interface
+     * @throws IOException
+     */
     @Override
     public void start(Stage stage) throws IOException {
         stage.setTitle("DS Paint");
@@ -45,18 +45,16 @@ public class paintBase extends Application {
         // Declare the initial size of the window on start up
         final double[] windowSize = {1500, 750};
         // Declaring array of paintTabs, for save all and save as all
-        final paintTab[] paintTabs = new paintTab[15];
+        final paintTab[] paintTabs = new paintTab[25];
         Logger logger = Logger.getLogger("MyLog");
         FileHandler fh;
         try {
             // This block configure the logger with handler and formatter
-            fh = new FileHandler("C:\\Users\\Drew Simmons\\IdeaProjects\\DSPaint\\paintLog.txt");
+            fh = new FileHandler(shapeUtils.getImageDir() + "\\paintLog.txt");
             logger.addHandler(fh);
             SimpleFormatter formatter = new SimpleFormatter();
             fh.setFormatter(formatter);
-        } catch (SecurityException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (SecurityException | IOException e) {
             e.printStackTrace();
         }
         logEvent = new TimerTask(){
@@ -90,16 +88,27 @@ public class paintBase extends Application {
         scene.getRoot().setStyle("-fx-accent: #1e74c6;" +
                 "    -fx-focus-color: -fx-accent;" +
                 "    -fx-base: #373e43;" +
+                "    -fx-font-family: \"Comic Sans MS\";" +
                 "    -fx-control-inner-background: derive(-fx-base, 35%);" +
                 "    -fx-control-inner-background-alt: -fx-control-inner-background;");
         stage.setScene(scene);
         stage.show();
     }
 
-    public static void main(String[] args) {
-        launch();
+    /**
+     * Main that runs the launch method
+     */
+    public static class Launcher {
+        public static void main(String[] args) {
+            launch();
+        }
     }
 
+    /**
+     * Generate a tab to act as the new tab button
+     * every time that this tad is selected generate a new tab
+     * Since this tab will be selected when all paint tabs are closed this means that there will always be a paint tab open
+     */
     private Tab newTabButton(TabPane tabPane, Stage stage, paintTab[] paintTabs) {
         // make the add tab "button" (is really a tab)
         Tab addTab = new Tab("+");
