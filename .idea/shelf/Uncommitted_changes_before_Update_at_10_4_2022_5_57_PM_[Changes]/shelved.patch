@@ -1,0 +1,65 @@
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	
++++ b/.idea/workspace.xml	
+@@ -4,11 +4,10 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="1840403e-526a-468c-b49f-3948521b3b28" name="Changes" comment="Polygons of any size working">
+-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/dspaint/shapeUtils.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/dspaint/undoRedoUtils.java" afterDir="false" />
++    <list default="true" id="1840403e-526a-468c-b49f-3948521b3b28" name="Changes" comment="Final DS Paint 2.0&#10;No commnets">
++      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_9_25_2022_8_38_PM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_9_25_2022_8_38_PM__Changes_.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dspaint/paintCanvas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/dspaint/paintCanvas.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dspaint/paintBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/dspaint/paintBase.java" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -29,6 +28,7 @@
+       </map>
+     </option>
+     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
++    <option name="RESET_MODE" value="KEEP" />
+   </component>
+   <component name="MarkdownSettingsMigration">
+     <option name="stateVersion" value="1" />
+@@ -92,21 +92,7 @@
+       <option name="project" value="LOCAL" />
+       <updated>1664165910819</updated>
+     </task>
+-    <task id="LOCAL-00005" summary="Dark mode undo redo and moving shapes also triangles">
+-      <created>1664389102196</created>
+-      <option name="number" value="00005" />
+-      <option name="presentableId" value="LOCAL-00005" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1664389102196</updated>
+-    </task>
+-    <task id="LOCAL-00006" summary="Polygons of any size working">
+-      <created>1664494073658</created>
+-      <option name="number" value="00006" />
+-      <option name="presentableId" value="LOCAL-00006" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1664494073658</updated>
+-    </task>
+-    <option name="localTasksCounter" value="7" />
++    <option name="localTasksCounter" value="5" />
+     <servers />
+   </component>
+   <component name="Vcs.Log.Tabs.Properties">
+@@ -141,8 +127,6 @@
+     <MESSAGE value="Tabs are working&#10;using mass saves" />
+     <MESSAGE value="Working one from desktop" />
+     <MESSAGE value="Final DS Paint 2.0&#10;No commnets" />
+-    <MESSAGE value="Dark mode undo redo and moving shapes also triangles" />
+-    <MESSAGE value="Polygons of any size working" />
+-    <option name="LAST_COMMIT_MESSAGE" value="Polygons of any size working" />
++    <option name="LAST_COMMIT_MESSAGE" value="Final DS Paint 2.0&#10;No commnets" />
+   </component>
+ </project>
+\ No newline at end of file
