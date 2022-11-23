@@ -303,7 +303,7 @@ public class paintCanvas {
                                         case "Square" ->
                                                 graphicsContext.strokeRect(event.getX(), event.getY(), startX[0] - event.getX(), startX[0] - event.getX());
                                         case "Rectangle" ->
-                                                graphicsContext.strokeRect(startX[0], event.getY(), event.getX() - startX[0], startY[0] - event.getY());
+                                                graphicsContext.strokeRect(event.getX(), event.getY(), startX[0] - event.getX(), startY[0] - event.getY());
                                     }
                                 }
                             }
@@ -518,7 +518,7 @@ public class paintCanvas {
                                             lastShapeH = startX[0] - event.getX();
                                         }
                                         case "Rectangle" -> {
-                                            graphicsContext.strokeRect(startX[0], event.getY(), event.getX() - startX[0], startY[0] - event.getY());
+                                            graphicsContext.strokeRect(event.getX(), event.getY(), startX[0] - event.getX(), startY[0] - event.getY());
                                             lastShapeX = event.getX();
                                             lastShapeY = event.getY();
                                             lastShapeW = startX[0] - event.getX();

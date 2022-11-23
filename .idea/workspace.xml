@@ -12,21 +12,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1840403e-526a-468c-b49f-3948521b3b28" name="Changes" comment="2.2.1 Auto Save Added">
-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/DSPaint_jar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="1840403e-526a-468c-b49f-3948521b3b28" name="Changes" comment="2.3.0 Final DS Paint turn in">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/paintLog.txt" beforeDir="false" afterPath="$PROJECT_DIR$/paintLog.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dspaint/SwingJank.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/dspaint/SwingJank.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dspaint/cutPasteUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/dspaint/cutPasteUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dspaint/paintBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/dspaint/paintBase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dspaint/paintBaseController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/DSPaint_jar/DSPaint.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/DSPaint_jar/DSPaint.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/paintLog.txt.1" beforeDir="false" afterPath="$PROJECT_DIR$/paintLog.txt.1" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dspaint/paintCanvas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/dspaint/paintCanvas.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dspaint/paintTab.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/dspaint/paintTab.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dspaint/shapeUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/dspaint/shapeUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dspaint/undoRedoUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/dspaint/undoRedoUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/com/example/dspaint/shapeUtilsTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/com/example/dspaint/shapeutilstest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,7 +61,7 @@
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
     "create.test.in.the.same.root": "true",
     "jdk.selected.JAVA_MODULE": "18",
-    "last_opened_file_path": "C:/Program Files/Java/jdk-18.0.2.1",
+    "last_opened_file_path": "C:/Users/Drew Simmons/Documents/Final Paint turn in",
     "project.structure.last.edited": "SDKs",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.3494253",
@@ -93,7 +83,7 @@
       <recent name="com.example.dspaint" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.paintBase">
     <configuration name="paintBase" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.example.dspaint.paintBase" />
       <module name="DSPaint" />
@@ -157,9 +147,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.paintBase" />
         <item itemvalue="JAR Application.DSPaint.jar" />
         <item itemvalue="JAR Application.DSPaint.jar (1)" />
-        <item itemvalue="Application.paintBase" />
         <item itemvalue="JUnit.shapeutilstest" />
         <item itemvalue="JUnit.shapeutilstest.PythagoreanTheorem" />
       </list>
@@ -230,7 +220,21 @@
       <option name="project" value="LOCAL" />
       <updated>1665105834318</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="2.3.0 Final DS Paint turn in">
+      <created>1669172557723</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1669172557723</updated>
+    </task>
+    <task id="LOCAL-00010" summary="2.3.0 Final DS Paint turn in">
+      <created>1669172573962</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1669172573962</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -270,6 +274,7 @@
     <MESSAGE value="Final 2.1.0 !!!!" />
     <MESSAGE value="2.1.1 Copy paste added" />
     <MESSAGE value="2.2.1 Auto Save Added" />
-    <option name="LAST_COMMIT_MESSAGE" value="2.2.1 Auto Save Added" />
+    <MESSAGE value="2.3.0 Final DS Paint turn in" />
+    <option name="LAST_COMMIT_MESSAGE" value="2.3.0 Final DS Paint turn in" />
   </component>
 </project>
